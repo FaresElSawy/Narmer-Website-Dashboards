@@ -434,7 +434,7 @@ function Overview({ data, language, query }) {
                 <div>
                   <strong>{row.customer.name}</strong>
                   <small className="staff-reference" dir="ltr">
-                    {row.id}
+                    {row.orderNumber ?? row.id}
                   </small>
                 </div>
               ),

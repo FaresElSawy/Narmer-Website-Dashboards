@@ -117,7 +117,7 @@ function OrderHistory() {
                     <div>
                       <dt>{ar ? 'مرجع الطلب' : 'Order reference'}</dt>
                       <dd className="order-reference">
-                        <bdi>{order.id}</bdi>
+                        <bdi>{order.orderNumber ?? order.id}</bdi>
                       </dd>
                     </div>
                     <div>

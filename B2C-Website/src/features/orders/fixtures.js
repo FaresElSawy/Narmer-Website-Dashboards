@@ -287,6 +287,7 @@ export function createOrdersFixture({ session, retail }) {
         orderId = id(3000 + state.next++),
         dto = {
           id: orderId,
+          orderNumber: 'NRM-20261030-74M9Y3',
           status: 'pending',
           customer: structuredClone(checkout.body.customer),
           address: {

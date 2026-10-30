@@ -32,6 +32,14 @@ export function staffOrderFixtureRows() {
       }
     return {
       id: (12000 + index).toString(16).padStart(24, '0'),
+      orderNumber: [
+        'NRM-20261030-74M9Y3',
+        null,
+        'NRM-20261030-0A7R4P',
+        null,
+        'NRM-20261030-Z4T7B0',
+        null,
+      ][index],
       userId: null,
       status,
       customer: { name: 'Review customer', email: 'customer@example.test', phone: '+201001234567' },
@@ -65,8 +73,10 @@ export function staffOrderFixtureRows() {
         : null,
       stockRestored: ['canceled', 'returned'].includes(status),
       history: [
-        { status: 'pending', at: now, actorId: null },
-        ...(status !== 'pending' ? [{ status, at: now, actorId: null }] : []),
+        { status: 'pending', at: now, actorId: null, actor: null },
+        ...(status !== 'pending'
+          ? [{ status, at: now, actorId: '000000000000000000000070', actor: null }]
+          : []),
       ],
       quotedPreview: {
         items: [item],
@@ -108,7 +118,12 @@ export function createStaffOrdersFixture(rows = staffOrderFixtureRows()) {
           throw new ApiError('ORDER_STATUS_INVALID', { status: 409 })
         row.status = body.status
         row.updatedAt = new Date().toISOString()
-        row.history.push({ status: row.status, at: row.updatedAt, actorId: user.id })
+        row.history.push({
+          status: row.status,
+          at: row.updatedAt,
+          actorId: user.id,
+          actor: { name: user.name, role: user.role },
+        })
         if (row.status === 'accepted' && row.payment.method === 'instapay') {
           row.payment.verifiedAt = row.updatedAt
           row.payment.verifiedBy = user.id

@@ -33,7 +33,7 @@ export function DashboardOrders() {
         <>
           <strong>{row.customer.name}</strong>
           <span className="staff-help staff-reference" dir="ltr">
-            {row.id}
+            {row.orderNumber ?? row.id}
           </span>
         </>
       ),

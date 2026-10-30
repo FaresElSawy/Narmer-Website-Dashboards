@@ -146,6 +146,7 @@ test('review fixture safely replays placement and returns the same guest trackin
       'history',
       'id',
       'items',
+      'orderNumber',
       'payment',
       'refund',
       'shipping',
@@ -155,6 +156,12 @@ test('review fixture safely replays placement and returns the same guest trackin
     ].sort(),
   )
   assert.equal(first.order.payment.method, 'cod')
+  assert.match(first.order.orderNumber, /^NRM-\d{8}-[A-Z0-9]{6}$/)
+  assert.equal(replay.order.orderNumber, first.order.orderNumber)
+  assert.equal(
+    first.order.history.some((event) => 'actor' in event || 'actorId' in event),
+    false,
+  )
   assert.equal(first.order.payment.hasProof, false)
   assert.ok(await orders.order(first.order.id, { token: first.trackingToken }))
   await assert.rejects(

@@ -4,8 +4,36 @@ import { dashboardAccess } from '../../B2C-Website/src/features/dashboard/model.
 import {
   orderTransitions,
   currentOrderImage,
+  historyByLabel,
 } from '../../B2C-Website/src/features/dashboard/orders.js'
 import { createStaffOrdersFixture } from '../../B2C-Website/src/features/dashboard/order-fixtures.js'
+
+test('history labels use saved staff snapshots, with safe legacy and placement fallbacks', () => {
+  assert.equal(historyByLabel({ status: 'pending', actorId: null }, 'en'), 'Order placed')
+  assert.equal(historyByLabel({ status: 'pending' }, 'ar'), 'تم إنشاء الطلب')
+  for (const event of [
+    { status: 'canceled', actorId: 'legacy-id', actor: null },
+    { status: 'accepted' },
+    { status: 'pending', actorId: 'legacy-id' },
+    { status: 'shipped', actor: { name: 'Invalid role', role: 'user' } },
+  ]) {
+    assert.equal(historyByLabel(event, 'en'), 'Staff member unavailable')
+    assert.equal(historyByLabel(event, 'ar'), 'بيانات الموظف غير متاحة')
+  }
+  for (const [role, label] of [
+    ['moderator', 'Moderator'],
+    ['admin', 'Admin'],
+    ['superAdmin', 'Super admin'],
+  ])
+    assert.equal(
+      historyByLabel({ status: 'accepted', actor: { name: 'Saved staff', role } }, 'en'),
+      `${label}: Saved staff`,
+    )
+  assert.equal(
+    historyByLabel({ status: 'accepted', actor: { name: 'اسم محفوظ', role: 'moderator' } }, 'ar'),
+    'مشرف: اسم محفوظ',
+  )
+})
 
 test('current catalog thumbnails prefer the exact variant and never replace order snapshots', () => {
   const item = { name: 'Saved name', unitPrice: 500, variantId: 'ordered' },
@@ -51,7 +79,7 @@ test('Phase 6 role guard preserves operational access and shipping delete except
 })
 test('Order transitions reject stale changes and preserve once-only stock/refund markers', async () => {
   const request = createStaffOrdersFixture(),
-    user = { id: 'review-admin' },
+    user = { id: 'review-admin', name: 'Saved staff', role: 'admin' },
     list = await request('/orders'),
     pending = list.items[0],
     path = `/orders/${pending.id}/status`
@@ -70,6 +98,13 @@ test('Order transitions reject stale changes and preserve once-only stock/refund
     body: { status: 'accepted', expectedStatus: 'pending' },
   })
   assert.equal(accepted.payment.verifiedBy, user.id)
+  assert.deepEqual(accepted.history.at(-1).actor, { name: 'Saved staff', role: 'admin' })
+  user.name = 'Renamed staff'
+  user.role = 'moderator'
+  assert.deepEqual((await request(`/orders/${pending.id}`)).history.at(-1).actor, {
+    name: 'Saved staff',
+    role: 'admin',
+  })
   await assert.rejects(
     request(path, {
       method: 'PATCH',
@@ -91,5 +126,7 @@ test('Order transitions reject stale changes and preserve once-only stock/refund
   assert.equal(canceled.stockRestored, true)
   assert.equal(canceled.refund.amount, canceled.totals.total)
   assert.equal(repeated.history.length, canceled.history.length)
+  assert.equal(repeated.orderNumber, pending.orderNumber)
+  assert.deepEqual(repeated.history.at(-1).actor, { name: 'Renamed staff', role: 'moderator' })
   assert.deepEqual(orderTransitions(canceled.status), [])
 })

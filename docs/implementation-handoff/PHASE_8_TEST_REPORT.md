@@ -1,10 +1,22 @@
 # Phase 8 test report
 
-Report updated: 30 October 2026, Africa/Cairo. Status: **Available local and bounded live test run finished; Phase 8 remains In progress for the outstanding acceptance checks below.** Cleanup is complete. Pending, blocked and unisolated checks have not been counted as passes.
+Report updated: 31 October 2026, Africa/Cairo. Status: **Available local and bounded live test run finished; Phase 8 remains In progress for the outstanding acceptance checks below.** Cleanup is complete. Pending, blocked and unisolated checks have not been counted as passes.
 
 The final temporary-API run contains three canceled B2C orders and three retained B2B inquiries. Exact concurrent/replay tests created one order and one inquiry each. Both disposable accounts are blocked, all test catalog/promotions are inactive, and the existing Wholesale form is restored to Unpublished. No real payment, refund, production deployment or owner transfer occurred. The owner deferred email visual design to the backend developer; no frontend email templates were created.
 
 ## Scope and evidence boundaries
+
+### Follow-up: order numbers and history, 31 October 2026
+
+Integrated `Backend Files/New Backend Files/order-number-and-history-frontend-response.md` in B2C. Placement confirmation, account history/detail/receipt, guest tracking, staff list/detail and Overview recent orders display `orderNumber ?? id`. API paths, internal keys, notification destinations and private tracking links still use the MongoDB ID. The manual tracking form explicitly asks for the ID from the private link because no number-lookup endpoint exists.
+
+Staff status history now uses **By** / **بواسطة** and the saved role/name snapshot. Initial pending events show **Order placed**; missing older snapshots show **Staff member unavailable** without raw staff IDs or guessed identities. Customer/guest history remains status/time only. Existing Cairo formatting, status requests, expected-status checks, confirmation/reconciliation and report invalidation are preserved. B2B is unchanged.
+
+Verification: all 137 shared logic tests, B2C lint, installed Prettier checks and the B2C Vercel staging build passed. The build proved 14 public EN/AR pages against the currently available public catalog. Intercepted Chromium checks passed in English and Arabic for numbered, null and missing-number lists, staff detail/history, Overview recent orders, account history/detail/receipt, confirmation and private tracking. Staff detail passed the 390px overflow check; desktop/mobile screenshots were inspected. API paths retained IDs, and the saved staff name rendered as plain text. Fixture tests cover saved actor stability and idempotent status replay.
+
+The same browser check observed exactly one refresh during initialization and no additional refresh when navigating from the staff order list to its detail through a client-side link. Both apps place the session provider above their page routes; a valid access token remains in memory across client-side navigation. This follow-up did not change authentication code.
+
+Evidence: `output/phase8/order-reference-tests.log`, `order-reference-build.log`, `order-reference-format-check.log`, and `output/playwright/order-reference/results.json` plus screenshots. These are local/intercepted frontend results, not proof that the backend addition has been deployed or that real orders have been backfilled. No live order/status/account write was made for this follow-up.
 
 Phase 8 checks the separate B2C and B2B React/Vite websites, their shared foundations, public pages, customer and guest journeys, staff workflows, API contracts, recovery behavior, private media, reports, and release readiness. The accepted visual direction and role rules remain unchanged.
 

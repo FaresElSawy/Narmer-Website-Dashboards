@@ -88,8 +88,8 @@ function TrackingAccess({ initialId = '' }) {
     <div className="shop-page">
       <OrderPageHeading title={ar ? 'تتبع طلبك' : 'Track your order'}>
         {ar
-          ? 'استخدم الرابط الخاص الذي حفظته عند الطلب، أو أدخل مرجع الطلب ومفتاح الوصول الخاص.'
-          : 'Use the private link saved when ordering, or enter your order reference and private access key.'}
+          ? 'استخدم الرابط الخاص الذي حفظته عند الطلب، أو أدخل معرّف الطلب من الرابط ومفتاح الوصول الخاص. لا يمكن البحث برقم الطلب المعروض.'
+          : 'Use your saved private tracking link, or enter the order ID from that link and your private access key. The displayed order number cannot be used for lookup.'}
       </OrderPageHeading>
       <form
         className="order-access-form order-panel"
@@ -104,7 +104,7 @@ function TrackingAccess({ initialId = '' }) {
         }}
       >
         <Field
-          label={ar ? 'مرجع الطلب' : 'Order reference'}
+          label={ar ? 'معرّف الطلب من الرابط الخاص' : 'Order ID from private link'}
           name="orderId"
           required
           maxLength={24}
@@ -216,7 +216,7 @@ function AuthorizedOrder({ id, token, receipt, guest }) {
             <p className="eyebrow">{ar ? 'نارمر / إيصال الطلب' : 'NARMER / ORDER RECEIPT'}</p>
             <h2>{ar ? 'مرجع الطلب' : 'Order reference'}</h2>
             <p className="order-reference">
-              <bdi>{order.id}</bdi>
+              <bdi>{order.orderNumber ?? order.id}</bdi>
             </p>
             <p className="order-help">
               <time dateTime={order.createdAt}>{date}</time>

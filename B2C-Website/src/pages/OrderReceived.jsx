@@ -138,7 +138,7 @@ export default function OrderReceived() {
         </p>
         <p className="order-reference">
           {ar ? 'مرجع الطلب: ' : 'Order reference: '}
-          <bdi>{order.id}</bdi>
+          <bdi>{order.orderNumber ?? order.id}</bdi>
         </p>
         <Button variant="accent" to={`${base}/receipt`}>
           {ar ? 'عرض إيصال الطلب' : 'View order receipt'}

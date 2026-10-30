@@ -11,7 +11,7 @@ import {
   ReadState,
   StaffTable,
 } from '../features/dashboard/components.jsx'
-import { orderStatusLabel, orderTransitions } from '../features/dashboard/orders.js'
+import { historyByLabel, orderStatusLabel, orderTransitions } from '../features/dashboard/orders.js'
 import { unknownWrite } from '../features/dashboard/model.js'
 import { useNotifications } from '../../../shared/ui/Notifications.jsx'
 import { OrderItems } from '../features/dashboard/OrderItems.jsx'
@@ -134,7 +134,7 @@ export function DashboardOrderDetail() {
                 <div>
                   <p className="staff-help">{ar ? 'مرجع الطلب' : 'Order reference'}</p>
                   <strong className="staff-reference" dir="ltr">
-                    {order.id}
+                    {order.orderNumber ?? order.id}
                   </strong>
                   <p>{date(order.createdAt)}</p>
                 </div>
@@ -265,13 +265,9 @@ export function DashboardOrderDetail() {
                     render: (entry) => date(entry.at),
                   },
                   {
-                    key: 'actorId',
-                    label: ar ? 'مرجع الموظف' : 'Staff reference',
-                    render: (entry) => (
-                      <span className="staff-reference">
-                        {entry.actorId || (ar ? 'إنشاء الطلب' : 'Order placed')}
-                      </span>
-                    ),
+                    key: 'actor',
+                    label: ar ? 'بواسطة' : 'By',
+                    render: (entry) => historyByLabel(entry, language),
                   },
                 ]}
               />
