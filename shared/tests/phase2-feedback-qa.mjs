@@ -203,16 +203,16 @@ for (const engine of ['chromium', 'webkit']) {
                       0.02,
                   )
                   const spacing = await page.evaluate(() => ({
-                    captionBottom: document
-                      .querySelector('.business-service-illustration figcaption')
+                    imageBottom: document
+                      .querySelector('.business-service-illustration')
                       .getBoundingClientRect().bottom,
                     introductionTop: document
                       .querySelector('.business-service-columns')
                       .getBoundingClientRect().top,
                   }))
                   assert.ok(
-                    spacing.introductionTop - spacing.captionBottom >= 31,
-                    'Caption overlaps the service introduction',
+                    spacing.introductionTop - spacing.imageBottom >= 31,
+                    'Image overlaps the service introduction',
                   )
                   const request = await page.locator('.business-service-cta a').getAttribute('href')
                   assert.equal(request, `/${language}/request?service=${path.split('/').at(-1)}`)

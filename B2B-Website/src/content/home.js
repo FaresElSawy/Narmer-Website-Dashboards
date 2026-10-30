@@ -7,7 +7,6 @@ export const homeCopy = {
     wholesale: 'Explore wholesale',
     manufacturing: 'Discuss manufacturing',
     note: 'One brand. Two ways to work together.',
-    caption: 'Illustrative manufacturing imagery.',
     metaTitle: 'Narmer Business | Clothing supply & manufacturing',
     metaDescription:
       'Explore clothing supply and manufacturing with Narmer. Discuss your requirements for ready-made clothing or your own collection.',
@@ -20,7 +19,6 @@ export const homeCopy = {
     wholesale: 'استكشف الجملة',
     manufacturing: 'ناقش طلب التصنيع',
     note: 'علامة واحدة. طريقتان للعمل معًا.',
-    caption: 'صور توضيحية للتصنيع.',
     metaTitle: 'نارمر للأعمال | توريد الملابس وتصنيعها',
     metaDescription:
       'اكتشف خدمات توريد الملابس وتصنيعها مع نارمر وناقش متطلبات الملابس الجاهزة أو مجموعتك الخاصة.',

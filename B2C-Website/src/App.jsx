@@ -6,7 +6,6 @@ import { Button, Feedback } from '../../shared/ui/Primitives.jsx'
 import { Metadata } from '../../shared/ui/Metadata.jsx'
 import { RuntimeProvider } from '../../shared/ui/Runtime.jsx'
 import Home from './pages/Home.jsx'
-import loginCampaign from './assets/images/customer-login-campaign.webp'
 import { config, navigation } from './app/config.js'
 import { ShopProvider, useShop } from './features/shop/ShopProvider.jsx'
 import { OrdersProvider } from './features/orders/OrdersProvider.jsx'
@@ -101,21 +100,7 @@ function RetailPublic() {
           <Route path="track" element={<OrderDetail guest />} />
           <Route path="track/:orderId" element={<OrderDetail guest />} />
           <Route path="track/:orderId/receipt" element={<OrderDetail guest receipt />} />
-          <Route
-            path="account/*"
-            element={
-              <AccountRoutes
-                afterLogin={afterLogin}
-                loginImage={{
-                  src: loginCampaign,
-                  alt:
-                    language === 'ar'
-                      ? 'عارضان وعارضتان بملابس نارمر اليومية'
-                      : 'Two men and two women wearing Narmer everyday clothing',
-                }}
-              />
-            }
-          />
+          <Route path="account/*" element={<AccountRoutes afterLogin={afterLogin} />} />
           {['about', 'contact', 'privacy', 'terms'].map((page) => (
             <Route key={page} path={page} element={<Information page={page} />} />
           ))}

@@ -141,7 +141,6 @@ export function BusinessHome({ requestForm }) {
           </div>
           <HeroMedia home={home} language={language} />
         </div>
-        <p className="image-caption">{copy.caption}</p>
       </section>
       <section
         className="business-section business-section--services"
@@ -195,11 +194,6 @@ export function BusinessHome({ requestForm }) {
             </p>
           </div>
         </div>
-        <p className="image-caption">
-          {ar
-            ? 'صور توضيحية للجملة، وليست صور منتجات الكتالوج.'
-            : 'Illustrative wholesale imagery, not catalog product photography.'}
-        </p>
       </section>
       <section
         className="business-inquiry"

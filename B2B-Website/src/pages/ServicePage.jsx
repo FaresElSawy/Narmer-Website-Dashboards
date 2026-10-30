@@ -65,14 +65,6 @@ export function ServicePage({ type: givenType }) {
       />
       <article className="business-service-page" aria-labelledby="business-service-title">
         <header className="business-service-heading">
-          <nav
-            className="business-service-breadcrumb"
-            aria-label={ar ? 'مسار التنقل' : 'Breadcrumb'}
-          >
-            <Link to={`/${language}`}>{ar ? 'الرئيسية' : 'Home'}</Link>
-            <span aria-hidden="true"> / </span>
-            <span>{ar ? 'نارمر للأعمال' : 'Narmer Business'}</span>
-          </nav>
           <h1 id="business-service-title">{copy.title}</h1>
           <p>{copy.summary}</p>
         </header>
@@ -84,9 +76,6 @@ export function ServicePage({ type: givenType }) {
             width={image.width}
             height={image.height}
           />
-          <figcaption>
-            {ar ? 'صورة توضيحية لعملية الإنتاج' : 'Illustrative production imagery'}
-          </figcaption>
         </figure>
         <div className="business-service-columns">
           <div className="business-service-copy">

@@ -280,6 +280,32 @@ input[type='checkbox']:disabled {
 .field p {
   font-size: 12px;
 }
+.password-input {
+  position: relative;
+}
+.field .password-input input {
+  padding-inline-end: 56px;
+}
+.password-toggle {
+  position: absolute;
+  inset-inline-end: 4px;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--color-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+}
+.password-toggle:hover {
+  color: var(--color-brand);
+  background: var(--color-pale);
+}
 .field-error {
   color: #a5262c;
 }

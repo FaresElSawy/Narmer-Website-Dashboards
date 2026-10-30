@@ -18,6 +18,14 @@ The same browser check observed exactly one refresh during initialization and no
 
 Evidence: `output/phase8/order-reference-tests.log`, `order-reference-build.log`, `order-reference-format-check.log`, and `output/playwright/order-reference/results.json` plus screenshots. These are local/intercepted frontend results, not proof that the backend addition has been deployed or that real orders have been backfilled. No live order/status/account write was made for this follow-up.
 
+### Follow-up: account controls and B2B presentation, 31 October 2026
+
+Moved Sign out from Profile to a separated, text-labelled secondary button in Overview in both stores. B2B customer Request history now appears alongside the other Overview destinations. Saved-address navigation, logout recovery, profile saving and role boundaries are preserved. Customer login, registration and reset-password fields now have an opt-in shared eye control with localized labels, pressed/control semantics, a 44px target and RTL positioning; toggling does not submit a form or change its value. Existing staff/dashboard password controls are unchanged.
+
+Both customer login pages use one owner-requested generated manufacturing illustration, optimized to a shared 147 KB WebP. B2B visible manufacturing/wholesale illustrative captions and corresponding service/contact captions were removed. B2B inner-page breadcrumbs were removed at the service heading, inquiry heading and shared account entry points; wholesale detail retains its own title without an empty heading spacer. Request-progress steps, functional back links, B2C breadcrumbs and policy placeholders remain intact.
+
+Verification: all 137 shared logic tests, both app lints, installed Prettier checks and both Vercel staging builds passed (14 B2C and 20 B2B public EN/AR pages). Local Chromium checks passed for both stores in EN/AR at 1440px, 960px and 390px: password show/hide by pointer and keyboard on login/register/reset, ID/label association, unchanged value/no accidental submission, image loading, Overview placement and spacing, absence of moved actions in Profile, working sign-out and no page overflow. B2B homepage captions and nine inner-page destinations were checked in both languages. Desktop and Arabic mobile screenshots were inspected. Evidence is in `output/playwright/account-ui/` and `output/phase8/account-ui-*.log`. These checks use disposable local fixtures and make no live account writes; real hosted sign-in/session acceptance and physical-device checks remain separate.
+
 Phase 8 checks the separate B2C and B2B React/Vite websites, their shared foundations, public pages, customer and guest journeys, staff workflows, API contracts, recovery behavior, private media, reports, and release readiness. The accepted visual direction and role rules remain unchanged.
 
 Three different kinds of evidence are reported separately:

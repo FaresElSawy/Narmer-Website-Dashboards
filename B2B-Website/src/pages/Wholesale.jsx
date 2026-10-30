@@ -201,7 +201,7 @@ export default function Wholesale() {
         }
         path={offerKey ? offerPath(offer) : '/wholesale'}
         publicPage={offerKey ? Boolean(offer) : !q && page === 1}
-        breadcrumbOnly={Boolean(offer)}
+        hideTitle={Boolean(offer)}
       />
       <InquiryError error={actionError || current.error} />
       {!current.data && !current.error && (

@@ -7,6 +7,24 @@ import menu from '../assets/images/menu.svg'
 
 const icons = { account, cart, wishlist, menu }
 export function Icon({ name }) {
+  if (name === 'eye' || name === 'eye-off')
+    return (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+        <circle cx="12" cy="12" r="3" />
+        {name === 'eye-off' && <path d="m3 3 18 18" />}
+      </svg>
+    )
   if (name === 'edit')
     return (
       <svg

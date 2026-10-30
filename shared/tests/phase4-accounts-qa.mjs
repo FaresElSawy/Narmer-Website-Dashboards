@@ -103,8 +103,8 @@ for (const engine of ['chromium', 'webkit']) {
             await page.locator('.orders-history .feedback').waitFor()
             await inspect('orders-empty', '/orders')
           }
-          await page.locator(`.account-nav a[href="/${language}/account/profile"]`).click()
-          await page.locator('.profile-sidebar button').click()
+          await page.locator(`.account-nav a[href="/${language}/account"]`).click()
+          await page.locator('.account-overview-actions button').click()
           await page.waitForURL(`${origin}/${language}`)
           assert.deepEqual(errors, [], id)
           assert.equal(apiCalls, 0)

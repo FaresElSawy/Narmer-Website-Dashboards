@@ -1,4 +1,3 @@
-import { Link } from 'react-router'
 import { Metadata } from '../../../../shared/ui/Metadata.jsx'
 import { useRuntime } from '../../../../shared/ui/Runtime.jsx'
 import { useLocale } from '../../../../shared/ui/Locale.jsx'
@@ -72,13 +71,7 @@ const errors = {
   ],
 }
 
-export function PageHeading({
-  title,
-  description,
-  path,
-  publicPage = false,
-  breadcrumbOnly = false,
-}) {
+export function PageHeading({ title, description, path, publicPage = false, hideTitle = false }) {
   const { config } = useRuntime(),
     language = useLocale()
   return (
@@ -90,17 +83,12 @@ export function PageHeading({
         path={path}
         publicPage={publicPage}
       />
-      <header className="inquiry-heading">
-        <Link to={`/${language}`}>
-          {language === 'ar' ? 'الرئيسية / نارمر للأعمال' : 'Home / Narmer Business'}
-        </Link>
-        {!breadcrumbOnly && (
-          <>
-            <h1>{title}</h1>
-            {description && <p>{description}</p>}
-          </>
-        )}
-      </header>
+      {!hideTitle && (
+        <header className="inquiry-heading">
+          <h1>{title}</h1>
+          {description && <p>{description}</p>}
+        </header>
+      )}
     </>
   )
 }

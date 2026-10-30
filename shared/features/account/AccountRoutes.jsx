@@ -8,7 +8,7 @@ import { useRuntime, useSession } from '../../ui/Runtime.jsx'
 import { errorMessage } from '../../lib/messages.js'
 import { createAccountApi, normalizeEmail, normalizePhone } from './api.js'
 import { AccountFrame } from './AccountFrame.jsx'
-import campaignMen from '../../assets/images/campaign-men.webp'
+import manufacturingImage from '../../assets/images/account-manufacturing.webp'
 import '../../assets/css/account.css'
 
 const initialAddress = {
@@ -53,16 +53,12 @@ function AccountLayout() {
     return (
       <div className="auth-access-page">
         <Metadata config={config} title={ar ? 'حساب نارمر' : 'Narmer account'} description="" />
-        <p className="auth-breadcrumb">
-          <Link to={`/${language}`}>{ar ? 'الرئيسية' : 'Home'}</Link> /{' '}
-          {config.store === 'b2b'
-            ? ar
-              ? 'نارمر للأعمال'
-              : 'Narmer Business'
-            : ar
-              ? 'متجر نارمر'
-              : 'Narmer Store'}
-        </p>
+        {config.store === 'b2c' && (
+          <p className="auth-breadcrumb">
+            <Link to={`/${language}`}>{ar ? 'الرئيسية' : 'Home'}</Link> /{' '}
+            {ar ? 'متجر نارمر' : 'Narmer Store'}
+          </p>
+        )}
         <Outlet />
       </div>
     )
@@ -304,11 +300,47 @@ function AccountPage({ page }) {
                 <Icon name="arrow" />
               </Link>
             )}
+            {config.store === 'b2b' && customer && (
+              <Link to={`/${language}/requests`}>
+                <div>
+                  <strong>{ar ? 'سجل الطلبات' : 'Request history'}</strong>
+                  <p>
+                    {ar
+                      ? 'عرض طلباتك ومتابعة رد الفريق'
+                      : 'View your requests and follow their progress'}
+                  </p>
+                </div>
+                <Icon name="arrow" />
+              </Link>
+            )}
+          </div>
+          <div className="account-overview-actions">
+            <Button
+              variant="secondary"
+              onClick={async () => {
+                setLeaving(true)
+                setBusy(true)
+                setError('')
+                try {
+                  if (config.mode === 'fixtures') session.clear()
+                  else await session.logout(api)
+                  navigate(`/${language}`, { replace: true })
+                } catch (reason) {
+                  setLeaving(false)
+                  setError(displayError(reason, language))
+                } finally {
+                  setBusy(false)
+                }
+              }}
+              disabled={busy}
+            >
+              {ar ? 'تسجيل الخروج' : 'Sign out'}
+            </Button>
           </div>
         </div>
       )}
       {page === 'profile' && profile && (
-        <div className="profile-layout">
+        <div className={`profile-layout${customer ? '' : ' profile-layout--single'}`}>
           <form onSubmit={saveProfile} className="account-form profile-form">
             <div className="profile-field-row">
               <Field
@@ -340,39 +372,14 @@ function AccountPage({ page }) {
               </Button>
             </div>
           </form>
-          <aside className="profile-sidebar" aria-label={ar ? 'روابط الحساب' : 'Account links'}>
-            <h3>{ar ? 'خيارات الحساب' : 'Account options'}</h3>
-            {customer && (
+          {customer && (
+            <aside className="profile-sidebar" aria-label={ar ? 'روابط الحساب' : 'Account links'}>
+              <h3>{ar ? 'خيارات الحساب' : 'Account options'}</h3>
               <Link to={`/${language}/account/addresses`}>
                 {ar ? 'العناوين المحفوظة' : 'Saved addresses'} <Icon name="arrow" />
               </Link>
-            )}
-            {config.store === 'b2b' && (
-              <Link to={`/${language}/requests`}>
-                {ar ? 'سجل الطلبات' : 'Request history'} <Icon name="arrow" />
-              </Link>
-            )}
-            <button
-              type="button"
-              onClick={async () => {
-                setLeaving(true)
-                setBusy(true)
-                try {
-                  if (config.mode === 'fixtures') session.clear()
-                  else await session.logout(api)
-                  navigate(`/${language}`, { replace: true })
-                } catch (reason) {
-                  setLeaving(false)
-                  setError(displayError(reason, language))
-                } finally {
-                  setBusy(false)
-                }
-              }}
-              disabled={busy}
-            >
-              {ar ? 'تسجيل الخروج' : 'Sign out'} <Icon name="arrow" />
-            </button>
-          </aside>
+            </aside>
+          )}
         </div>
       )}
       {page === 'addresses' && customer && (
@@ -504,7 +511,7 @@ function AccountPage({ page }) {
   )
 }
 
-function AuthPage({ page, image }) {
+function AuthPage({ page }) {
   const language = useLocale(),
     ar = language === 'ar',
     { config, session, restoring } = useRuntime(),
@@ -634,13 +641,17 @@ function AuthPage({ page, image }) {
       {page === 'login' && (
         <figure className="auth-art">
           <img
-            src={image?.src || campaignMen}
-            alt={image?.alt || (ar ? 'سترة نارمر بيضاء' : 'White Narmer hoodie')}
+            src={manufacturingImage}
+            alt={
+              ar
+                ? 'تجهيز أقمشة وقطع ملابس بجانب ماكينة خياطة'
+                : 'Fabric and garment pieces beside a sewing machine'
+            }
             width="704"
             height="600"
           />
           <figcaption>
-            {ar ? 'ملابس يومية تصنعها نارمر.' : 'Everyday clothing, made by Narmer.'}
+            {ar ? 'من القماش إلى ملابسك اليومية.' : 'From fabric to your everyday.'}
           </figcaption>
         </figure>
       )}
@@ -738,6 +749,7 @@ function AuthPage({ page, image }) {
           )}
           {['login', 'register', 'reset-password'].includes(page) && (
             <Field
+              key={page}
               label={
                 page === 'reset-password'
                   ? ar
@@ -749,6 +761,7 @@ function AuthPage({ page, image }) {
               }
               name="password"
               type="password"
+              revealPassword
               autoComplete={page === 'login' ? 'current-password' : 'new-password'}
               minLength={8}
               maxLength={72}
@@ -869,7 +882,7 @@ function AuthPage({ page, image }) {
   )
 }
 
-export function AccountRoutes({ afterLogin, loginImage }) {
+export function AccountRoutes({ afterLogin }) {
   const language = useLocale(),
     { config, api, session } = useRuntime()
   const account = useMemo(() => createAccountApi({ config, api, session }), [config, api, session])
@@ -880,7 +893,7 @@ export function AccountRoutes({ afterLogin, loginImage }) {
           <Route index element={<AccountPage page="index" />} />
           <Route path="profile" element={<AccountPage page="profile" />} />
           <Route path="addresses" element={<AccountPage page="addresses" />} />
-          <Route path="login" element={<AuthPage page="login" image={loginImage} />} />
+          <Route path="login" element={<AuthPage page="login" />} />
           <Route path="register" element={<AuthPage page="register" />} />
           <Route path="verify" element={<AuthPage page="verify" />} />
           <Route path="forgot-password" element={<AuthPage page="forgot-password" />} />

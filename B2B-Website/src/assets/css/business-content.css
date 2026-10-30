@@ -136,9 +136,6 @@
 .business-wholesale__note {
   font-size: 12px;
 }
-.business-wholesale > .image-caption {
-  margin-block-start: 16px;
-}
 .business-inquiry {
   width: 100%;
   padding: 64px max(var(--site-gutter), calc((100% - 1280px) / 2)) 32px;
@@ -317,14 +314,6 @@
   font-size: 15px;
   line-height: 1.45;
 }
-.business-service-breadcrumb {
-  font-size: 12px;
-}
-.business-service-breadcrumb a {
-  display: inline-flex;
-  min-height: 24px;
-  align-items: center;
-}
 .business-lead {
   color: var(--color-muted);
   font-size: clamp(16px, 1.4vw, 19px);
@@ -342,15 +331,6 @@
   aspect-ratio: 1280 / 440;
   border-radius: 20px;
   object-fit: cover;
-}
-.business-service-illustration figcaption {
-  margin-block-start: 32px;
-  font-size: 11px;
-}
-.business-contact__illustration figcaption {
-  margin-block-start: 12px;
-  color: var(--color-muted);
-  font-size: 12px;
 }
 .business-service-columns {
   display: grid;

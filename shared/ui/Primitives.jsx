@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { useLocale } from './Locale.jsx'
 import { Skeleton } from './Skeleton.jsx'
 import { useNotifications } from './Notifications.jsx'
+import { Icon } from './Brand.jsx'
 
 export function Button({ to, variant = 'primary', className = '', children, ...props }) {
   const classes = `button button--${variant} ${className}`
@@ -17,18 +18,49 @@ export function Button({ to, variant = 'primary', className = '', children, ...p
   )
 }
 
-export function Field({ label, error, hint, id: givenId, ...props }) {
+export function Field({ label, error, hint, id: givenId, revealPassword = false, type, ...props }) {
   const uniqueId = useId(),
-    id = givenId || uniqueId
+    id = givenId || uniqueId,
+    language = useLocale(),
+    [visible, setVisible] = useState(false)
+  const input = (
+    <input
+      id={id}
+      type={revealPassword && visible ? 'text' : type}
+      aria-invalid={error ? true : undefined}
+      aria-describedby={error || hint ? `${id}-help` : undefined}
+      {...props}
+    />
+  )
   return (
     <div className="field">
       <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error || hint ? `${id}-help` : undefined}
-        {...props}
-      />
+      {revealPassword ? (
+        <div className="password-input">
+          {input}
+          <button
+            type="button"
+            className="password-toggle"
+            disabled={props.disabled}
+            aria-label={
+              visible
+                ? language === 'ar'
+                  ? 'إخفاء كلمة المرور'
+                  : 'Hide password'
+                : language === 'ar'
+                  ? 'إظهار كلمة المرور'
+                  : 'Show password'
+            }
+            aria-pressed={visible}
+            aria-controls={id}
+            onClick={() => setVisible((value) => !value)}
+          >
+            <Icon name={visible ? 'eye-off' : 'eye'} />
+          </button>
+        </div>
+      ) : (
+        input
+      )}
       {(error || hint) && (
         <p id={`${id}-help`} className={error ? 'field-error' : 'muted'}>
           {error || hint}

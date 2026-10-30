@@ -70,7 +70,6 @@ export function ContactPage() {
             width="960"
             height="640"
           />
-          <figcaption>{ar ? 'صورة توضيحية.' : 'Illustrative imagery.'}</figcaption>
         </figure>
         <div className="business-contact__panels">
           <article className="business-contact-panel">
