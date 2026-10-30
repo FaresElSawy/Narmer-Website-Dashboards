@@ -53,12 +53,21 @@ Edit source, run the relevant checks, commit and push to `testing`. Vercel then 
 
 On 30 October 2026, push `13462df` to `testing` automatically created both deployments. Vercel reported **Ready** for B2C in 20 seconds and B2B in 21 seconds.
 
-| Site | Stable review URL                                                    | Vercel build details                                                                  |
-| ---- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| B2C  | https://narmer-b2c-git-testing-faresehab96-2347s-projects.vercel.app | https://vercel.com/faresehab96-2347s-projects/narmer-b2c/4afRNdQh2epZJfHFgFJR5HaxGBNC |
-| B2B  | https://narmer-b2b-git-testing-faresehab96-2347s-projects.vercel.app | https://vercel.com/faresehab96-2347s-projects/narmer-b2b/ABRqYUh9LMgH4MrYY1pRg6NnBAnE |
+| Site | Stable review URL             | Vercel build details                                                                  |
+| ---- | ----------------------------- | ------------------------------------------------------------------------------------- |
+| B2C  | https://narmer-b2c.vercel.app | https://vercel.com/faresehab96-2347s-projects/narmer-b2c/4afRNdQh2epZJfHFgFJR5HaxGBNC |
+| B2B  | https://narmer-b2b.vercel.app | https://vercel.com/faresehab96-2347s-projects/narmer-b2b/ABRqYUh9LMgH4MrYY1pRg6NnBAnE |
 
-Local preparation passed both app lints, Prettier checks, all 136 shared tests, and both staging builds with public HTML/asset proof (12 B2C and 20 B2B EN/AR pages). The first cloud builds reported an npm environment warning about Vercel's `cache-dir` setting. B2B also reported that its package's Node 24 requirement overrode a project setting of Node 26; the build itself used Node 24 and succeeded.
+The owner requested shorter client-facing addresses on 30 October. Both free `vercel.app` domains show **Valid Configuration** and track the Preview `testing` branch. No domain was purchased. The original randomly named project domains are configured to redirect to these addresses. The longer Git branch URLs remain available.
+
+| Staff entry | Login                                            | Dashboard after sign-in                    |
+| ----------- | ------------------------------------------------ | ------------------------------------------ |
+| B2C         | https://narmer-b2c.vercel.app/en/dashboard/login | https://narmer-b2c.vercel.app/en/dashboard |
+| B2B         | https://narmer-b2b.vercel.app/en/dashboard/login | https://narmer-b2b.vercel.app/en/dashboard |
+
+Replace `/en` with `/ar` for Arabic. The backend owner should use the exact origins `https://narmer-b2c.vercel.app` and `https://narmer-b2b.vercel.app` for credentialed origin allowlisting. Domain assignment does not certify hosted sign-in.
+
+Local preparation passed both app lints, Prettier checks, all 136 shared tests, and both staging builds with public HTML/asset proof (12 B2C and 20 B2B EN/AR pages). The first cloud builds reported an npm environment warning about Vercel's `cache-dir` setting. B2B also reported that its package's Node 24 requirement overrode a project setting of Node 26; the build itself used Node 24 and succeeded. The B2B project setting was subsequently aligned to Node 24 and saved.
 
 Ready confirms a successful hosted build, not a completed signed-in hosted acceptance test. Backend origin allowlisting, actual hosted cookie/authentication behavior and the remaining Phase 8 external checks must still be verified. Vercel Preview protection may require reviewers to sign in to Vercel; no protection was disabled.
 
