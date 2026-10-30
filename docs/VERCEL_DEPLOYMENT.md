@@ -6,7 +6,7 @@ Prepared 30 October 2026 for the owner-authorized GitHub repository `FaresElSawy
 
 | Setting                               | B2C                               | B2B                               |
 | ------------------------------------- | --------------------------------- | --------------------------------- |
-| Suggested project name                | `narmer-b2c`                      | `narmer-b2b`                      |
+| Connected project name                | `narmer-b2c`                      | `narmer-b2b`                      |
 | Root Directory                        | `B2C-Website`                     | `B2B-Website`                     |
 | Framework preset                      | Other                             | Other                             |
 | Node.js                               | 24.x                              | 24.x                              |
@@ -45,6 +45,8 @@ Both apps use the same shared Node test suite; running it once is sufficient. Ke
 
 ## Future changes
 
-Edit source, run the relevant checks, commit and push to the connected test branch. Vercel then rebuilds each connected project from GitHub. Review the deployment status and use the stable test links. No manual build upload is needed for normal code updates. A change under `shared/` must reach both projects, so do not enable a skip rule that watches only one app directory.
+Both projects are connected to the repository in the Vercel team `faresehab96-2347s-projects`. Use the `testing` branch for online review. The production branch remains `main`, and the Ignored Build Step is set to **Only build pre-production**. Production builds are intentionally disabled for this test setup.
+
+Edit source, run the relevant checks, commit and push to `testing`. Vercel then rebuilds each connected project from GitHub. Review the deployment status and use the stable test links. No manual build upload is needed for normal code updates. A change under `shared/` must reach both projects, so do not enable a skip rule that watches only one app directory.
 
 Final production domains, indexing, content/provider acceptance and release approval remain separate. Deployment URLs, actual Git branch settings and verification results will be recorded here after the projects are connected.
