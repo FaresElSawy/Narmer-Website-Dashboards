@@ -1,0 +1,16 @@
+{
+  "createdAt": "2026-10-23",
+  "projectId": "e976b698-bd00-44c8-af6a-51847385d052",
+  "threadId": "01a16580-4703-7391-af11-425ddc8d8794",
+  "hostId": "local",
+  "requestedTitle": "Narmer - B2B and B2C implementation planning",
+  "firstTask": "Read the handoff, inspect CURRENT Figma and project, produce a phased implementation plan, ask genuine open questions, then wait for owner approval before coding.",
+  "modelOverride": null,
+  "reasoningOverride": null,
+  "apiBaseUrl": null,
+  "apiBaseUrlStatus": "Not yet configured; do not infer from local export examples.",
+  "mainHandoff": "START_HERE.md",
+  "workingRules": "WORKING_RULES.md",
+  "designSourceLock": "FIGMA_CURRENT_SOURCE_LOCK.json",
+  "originalConversationPurpose": "Design"
+}

@@ -1,0 +1,39 @@
+@font-face {
+  font-family: Poppins;
+  src: url('../fonts/poppins/Poppins-Regular-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Poppins;
+  src: url('../fonts/poppins/Poppins-SemiBold-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: Poppins;
+  src: url('../fonts/poppins/Poppins-Bold-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: Cairo;
+  src: url('../fonts/cairo/Cairo-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Cairo;
+  src: url('../fonts/cairo/Cairo-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: Cairo;
+  src: url('../fonts/cairo/Cairo-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}

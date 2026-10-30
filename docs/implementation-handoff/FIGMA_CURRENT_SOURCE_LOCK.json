@@ -1,0 +1,167 @@
+{
+  "verifiedAt": "2026-10-23",
+  "fileKey": "sv4mjHZis8FDpvEMsrAJWM",
+  "policy": "Implement CURRENT only. Do not use BACKUP styling, old experiments, source IDs on backup pages or predating local exports. No Figma edits authorized by this handoff.",
+  "websiteDirection": "CW-01 MIX",
+  "websiteMasterId": "191:651",
+  "dashboardDirection": "CD-01 Apple",
+  "dashboardMasterId": "191:12467",
+  "currentPages": [
+    {
+      "id": "191:127",
+      "name": "10 - CURRENT · Start here"
+    },
+    {
+      "id": "191:128",
+      "name": "11 - CURRENT · Website masters"
+    },
+    {
+      "id": "191:129",
+      "name": "12 - CURRENT · B2B templates"
+    },
+    {
+      "id": "191:130",
+      "name": "13 - CURRENT · B2C templates"
+    },
+    {
+      "id": "191:131",
+      "name": "14 - CURRENT · Shared website templates"
+    },
+    {
+      "id": "191:132",
+      "name": "15 - CURRENT · Dashboard masters"
+    },
+    {
+      "id": "191:133",
+      "name": "16 - CURRENT · Dashboard templates"
+    },
+    {
+      "id": "191:134",
+      "name": "17 - CURRENT · Key states"
+    },
+    {
+      "id": "192:127",
+      "name": "18 - CURRENT · Components and tokens"
+    }
+  ],
+  "backupPagesDoNotImplement": [
+    {
+      "id": "3:2",
+      "name": "BACKUP · 00 - Foundations and roadmap"
+    },
+    {
+      "id": "0:1",
+      "name": "BACKUP · 01 - Websites"
+    },
+    {
+      "id": "3:3",
+      "name": "BACKUP · 02 - Dashboards"
+    },
+    {
+      "id": "76:669",
+      "name": "BACKUP · 03 - B2B Templates"
+    },
+    {
+      "id": "76:670",
+      "name": "BACKUP · 04 - B2C Templates"
+    },
+    {
+      "id": "76:671",
+      "name": "BACKUP · 05 - Shared Templates"
+    },
+    {
+      "id": "76:672",
+      "name": "BACKUP · 06 - Dashboard Templates"
+    },
+    {
+      "id": "76:673",
+      "name": "BACKUP · 07 - Key States"
+    },
+    {
+      "id": "105:669",
+      "name": "BACKUP · 08 - Review index"
+    }
+  ],
+  "websiteReferences": [
+    {
+      "id": "191:651",
+      "name": "MASTER · APPROVED DIRECTION · CW-01 / Home / EN / Desktop",
+      "w": 1440,
+      "h": 3799
+    },
+    {
+      "id": "191:806",
+      "name": "CURRENT · CW-01 / Home / EN / Mobile",
+      "w": 390,
+      "h": 4432.537109375
+    },
+    {
+      "id": "191:958",
+      "name": "CURRENT · CW-01 / Home / AR / Desktop",
+      "w": 1440,
+      "h": 3873.537109375
+    },
+    {
+      "id": "191:1077",
+      "name": "CURRENT · CW-01 / Home / AR / Mobile",
+      "w": 390,
+      "h": 4476.537109375
+    },
+    {
+      "id": "191:1229",
+      "name": "CURRENT · CW-01 / Navigation / Client approval states",
+      "w": 1440,
+      "h": 2983
+    },
+    {
+      "id": "293:517",
+      "name": "REFERENCE · CW-01 / Grouped mobile header / EN / Approved 6 px",
+      "w": 390,
+      "h": 4432.537109375
+    }
+  ],
+  "dashboardReferences": [
+    {
+      "id": "191:12467",
+      "name": "MASTER · APPROVED DIRECTION · CD-01 / Overview / EN / Desktop"
+    },
+    {
+      "id": "191:12685",
+      "name": "CURRENT · CD-01 / Overview / EN / Mobile"
+    },
+    {
+      "id": "191:12813",
+      "name": "CURRENT · CD-01 / Overview / AR / Desktop"
+    },
+    {
+      "id": "191:13050",
+      "name": "CURRENT · CD-01 / Overview / AR / Mobile"
+    },
+    {
+      "id": "191:13178",
+      "name": "CURRENT · BD-01 / Requests / EN / Desktop"
+    },
+    {
+      "id": "191:13349",
+      "name": "CURRENT · BD-01 / Requests / EN / Mobile"
+    },
+    {
+      "id": "191:13424",
+      "name": "CURRENT · BD-01 / Requests / AR / Desktop"
+    },
+    {
+      "id": "191:13595",
+      "name": "CURRENT · BD-01 / Requests / AR / Mobile"
+    }
+  ],
+  "latestReceiptReferences": {
+    "englishDesktop": "312:3249",
+    "englishMobile": "312:3399",
+    "arabicDesktop": "312:3574",
+    "arabicMobile": "312:3724"
+  },
+  "mobileRetailIconGap": 6,
+  "codeNotStarted": true,
+  "firstAction": "Phased implementation plan and clarification; wait owner approval before coding.",
+  "sourceEvidence": "Website/dash master/page IDs and CURRENT D13 numeric-table mismatch read live on 2026-10-23. Receipt IDs and latest correction evidence are from this design conversation and order-receipt-qa.json, not a full rerender today."
+}

@@ -1,0 +1,31 @@
+# Dependencies and generated website/build output
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.prerender/
+**/.vercel/
+
+# Local configuration, credentials, logs and editor state
+**/.env*
+!**/.env.example
+!**/.env.review
+!**/.env.staging
+*.log
+**/.DS_Store
+**/.idea/
+**/.vscode/
+
+# Supplied references and local test evidence are not frontend source
+/Backend Files/
+/Files/
+/Narmer UI Design/
+/output/
+/tmp/
+/.codex-remote-attachments/
+/docs/design-work/
+/docs/handoff-support/
+/docs/FIGMA_*
+/docs/figma-*.js
+/docs/NARMER_BACKEND_DEVELOPER_HANDOFF.md
+/docs/PROJECT_PLAN.md
+/docs/SCREEN_INVENTORY.md

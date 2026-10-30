@@ -1,0 +1,37 @@
+.size-guide {
+  width: min(624px, calc(100% - 32px));
+}
+.size-guide > p {
+  font-size: 14px;
+  margin-block-end: 16px;
+}
+.size-guide table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-block: 16px 24px;
+}
+.size-guide th,
+.size-guide td {
+  padding: 12px 8px;
+  text-align: start;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+.size-guide thead th {
+  background: var(--color-cream);
+  font-weight: 600;
+}
+.size-guide > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-block: 16px 24px;
+}
+.size-guide > .button {
+  width: 100%;
+}
+.size-guide-trigger {
+  justify-self: start;
+}

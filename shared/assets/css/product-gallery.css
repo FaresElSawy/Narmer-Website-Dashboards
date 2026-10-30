@@ -1,0 +1,115 @@
+.offer-images {
+  min-width: 0;
+}
+.offer-main-image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 704/650;
+  background: var(--color-pale);
+  border-radius: 20px;
+  overflow: hidden;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+.offer-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.offer-slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.offer-slide--incoming {
+  animation: offer-slide-in 380ms var(--ease-smooth) both;
+}
+.offer-slide--outgoing {
+  animation: offer-slide-out 380ms var(--ease-smooth) both;
+  pointer-events: none;
+}
+@keyframes offer-slide-in {
+  from {
+    transform: translateX(var(--gallery-from));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes offer-slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--gallery-to));
+  }
+}
+.offer-gallery {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 12px;
+  margin-block-start: 20px;
+  padding: 4px;
+}
+.offer-gallery button {
+  flex: 0 0 clamp(80px, 16vw, 112px);
+  scroll-snap-align: start;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: var(--color-pale);
+  overflow: hidden;
+  padding: 0;
+  aspect-ratio: 1;
+  cursor: pointer;
+  transition: border-color var(--motion-quick) ease;
+}
+.offer-gallery [aria-pressed='true'] {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+.offer-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-arrow {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: calc(50% - 22px);
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: white;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.gallery-arrow--previous {
+  inset-inline-start: 12px;
+}
+.gallery-arrow--next {
+  inset-inline-end: 12px;
+}
+.gallery-arrow--previous .dropdown-chevron {
+  transform: rotate(90deg);
+}
+.gallery-arrow--next .dropdown-chevron {
+  transform: rotate(-90deg);
+}
+[dir='rtl'] .gallery-arrow--previous .dropdown-chevron {
+  transform: rotate(-90deg);
+}
+[dir='rtl'] .gallery-arrow--next .dropdown-chevron {
+  transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offer-slide--incoming,
+  .offer-slide--outgoing {
+    animation-duration: 1ms;
+  }
+}

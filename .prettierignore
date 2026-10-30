@@ -1,0 +1,12 @@
+**/node_modules/
+**/dist/
+**/.prerender/
+**/.vercel/
+**/package-lock.json
+**/.env*
+Backend Files/
+Files/
+Narmer UI Design/
+output/
+tmp/
+.codex-remote-attachments/

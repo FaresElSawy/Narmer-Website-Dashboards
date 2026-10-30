@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+@import '../../../../shared/assets/css/foundation.css';
+@import '../../../../shared/assets/css/motion.css';
+@source '../../../../shared/ui';

@@ -1,0 +1,138 @@
+.staff-access {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 32px 20px;
+  background: radial-gradient(ellipse at 50% 0%, #145267, #073b50 55%, #052d3d);
+}
+.staff-access-panel {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  min-width: 0;
+  padding: 48px 40px 32px;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 24px 80px rgb(1 22 30 / 0.18);
+}
+.staff-access-language {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 12px;
+}
+.staff-access-language .language-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 10px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+.staff-access-language .language-link:hover {
+  background: var(--color-pale);
+}
+.staff-access-brand {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 24px;
+}
+.staff-access-brand .brand-crop {
+  width: 96px;
+  height: 65px;
+}
+.staff-access .auth-panel {
+  max-width: none;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.staff-access .auth-panel h1 {
+  font-size: 24px;
+  line-height: 1.4;
+  text-align: center;
+}
+.staff-access .auth-intro {
+  font-size: 14px;
+  text-align: center;
+}
+.staff-access .account-form {
+  gap: 20px;
+  margin-top: 30px;
+}
+.staff-access .account-form input {
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.staff-password-field {
+  position: relative;
+}
+.staff-access .staff-password-field input {
+  padding-inline-end: 52px;
+}
+.staff-password-toggle {
+  position: absolute;
+  inset-inline-end: 2px;
+  inset-block-end: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  color: var(--color-muted);
+  background: transparent;
+}
+.staff-password-toggle:hover {
+  color: var(--color-brand);
+  background: var(--color-pale);
+}
+.staff-access .auth-submit {
+  min-height: 50px;
+  border-radius: 12px;
+}
+.staff-access .auth-links {
+  gap: 8px;
+  margin-top: 12px;
+}
+.staff-access .auth-links a {
+  min-height: 44px;
+  padding: 6px;
+  border: 0;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.staff-access .auth-links a:hover {
+  background: var(--color-pale);
+}
+.staff-access .auth-footnote {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--color-muted);
+}
+.staff-access .feedback {
+  min-height: 0;
+  padding: 14px;
+  text-align: start;
+}
+.staff-access .feedback strong {
+  font-size: 13px;
+  line-height: 1.6;
+}
+@media (max-width: 480px) {
+  .staff-access {
+    padding: 20px 16px;
+  }
+  .staff-access-panel {
+    padding-inline: 24px;
+    border-radius: 20px;
+  }
+}

@@ -1,0 +1,122 @@
+.notifications {
+  position: fixed;
+  z-index: 1000;
+  inset-block-end: max(1rem, env(safe-area-inset-bottom));
+  inset-inline-end: max(1rem, env(safe-area-inset-right));
+  display: grid;
+  gap: 0.6rem;
+  width: min(24rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  color: #fff;
+  background: var(--color-brand);
+  border-inline-start: 0.25rem solid var(--color-accent);
+  box-shadow: 0 0.5rem 1.5rem #0003;
+  pointer-events: auto;
+  animation: notification-in 180ms ease-out;
+}
+.notification button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  padding: 0.2rem 0.4rem;
+  color: #f1d48f;
+  background: transparent;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+.header-actions .icon-button {
+  position: relative;
+}
+.header-cart-count {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  display: grid;
+  place-items: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding-inline: 0.2rem;
+  border-radius: 1rem;
+  color: var(--color-brand);
+  background: var(--color-accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+}
+@keyframes notification-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notification {
+    animation: none;
+  }
+}
+.floating-cart {
+  display: none;
+}
+@media (max-width: 639px) {
+  .floating-cart {
+    position: fixed;
+    z-index: 900;
+    inset-inline-end: max(1rem, env(safe-area-inset-right));
+    inset-block-end: max(1rem, env(safe-area-inset-bottom));
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--color-brand);
+    box-shadow: 0 0.35rem 1rem #0003;
+  }
+  .floating-cart .icon {
+    filter: brightness(0) invert(1);
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+  .floating-cart span {
+    position: absolute;
+    inset-block-start: -0.25rem;
+    inset-inline-end: -0.25rem;
+    display: grid;
+    place-items: center;
+    min-width: 1.2rem;
+    height: 1.2rem;
+    padding-inline: 0.2rem;
+    border-radius: 1rem;
+    color: var(--color-brand);
+    background: var(--color-accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .notifications {
+    inset-block-end: max(4.75rem, calc(env(safe-area-inset-bottom) + 4rem));
+    width: min(20rem, calc(100vw - 2rem));
+  }
+  .notification {
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+@media print {
+  .notifications,
+  .floating-cart {
+    display: none !important;
+  }
+}

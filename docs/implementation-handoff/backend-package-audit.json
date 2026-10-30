@@ -1,0 +1,719 @@
+{
+  "checkedAt": "2026-10-23",
+  "scope": "Static delivered-package verification only; backend source, running API, provider state and production deployment are not present/verified.",
+  "old": {
+    "name": "Old Backend Files",
+    "files": [
+      {
+        "file": "README.md",
+        "bytes": 9501,
+        "sha256": "b3cafedfbf40f737f9141582e5d087c20754476f67b2e8d706dffd68adca8192",
+        "lines": 87
+      },
+      {
+        "file": "api-conventions.md",
+        "bytes": 39074,
+        "sha256": "7195f33d5fc5909b5cd096f59655dffcf0330cd3c844883ade5d299d09b9fded",
+        "lines": 266
+      },
+      {
+        "file": "api/README.md",
+        "bytes": 14900,
+        "sha256": "3d306885b7bc1f9d3b74e425c0c8e800215c7e818a1988d0c985918370bffed6",
+        "lines": 110
+      },
+      {
+        "file": "api/example-manifest.json",
+        "bytes": 41371,
+        "sha256": "5c3ac7dd0c7448d065c714fec4f3fdff03927c5f245facc718f3ee799bc0ca70",
+        "lines": 1736
+      },
+      {
+        "file": "api/examples-verification.json",
+        "bytes": 23171,
+        "sha256": "8b105b43c0f8095450ebc4d86c99c97626f5510b5b40d9cddb8df2b3ec04fa4a",
+        "lines": 981
+      },
+      {
+        "file": "api/import-log.jsonl",
+        "bytes": 42162,
+        "sha256": "2d620d559f58ed3a81c501ef2fae258110f2ed18a4f9ad5198d376ebc912fc0d",
+        "lines": 58
+      },
+      {
+        "file": "api/local-example-checks.json",
+        "bytes": 483,
+        "sha256": "60eb213f3a2d5d904c72d6b3bb70b249125c157668b2eb34ba3d0b7081b3d74f",
+        "lines": 17
+      },
+      {
+        "file": "api/narmer.openapi.json",
+        "bytes": 7461613,
+        "sha256": "b1d3364ac54717ae95cc24d615b635cd3cba905e35fffd3ddd216486f8f1d1db",
+        "lines": 49509
+      },
+      {
+        "file": "api/narmer.postman.json",
+        "bytes": 1593637,
+        "sha256": "79300f78f03c64252d218065984b6be2e949860ef1d60142060eee0f53d20f7f",
+        "lines": 31150
+      },
+      {
+        "file": "api/native-case-import.json",
+        "bytes": 1274,
+        "sha256": "63b4742dad12263c7f5c160b8f65b2f07d04b36f0d9efacb2670315724b4fb54",
+        "lines": 34
+      },
+      {
+        "file": "api/routes.json",
+        "bytes": 21233,
+        "sha256": "63f755a3a9c8a4710c9607f1181d9e5d95f8c205212b63dfcbcbfe6775d17356",
+        "lines": 962
+      },
+      {
+        "file": "api/verification.json",
+        "bytes": 2268,
+        "sha256": "8f9e6c25b011f180f66a69e743c7d206087335498144f26fa0d458ad5b5c7455",
+        "lines": 71
+      },
+      {
+        "file": "b2b-flow.md",
+        "bytes": 28535,
+        "sha256": "89a0095804916e3229eeb59533edbf312456bd38f668e9bcd983c374af09160a",
+        "lines": 197
+      },
+      {
+        "file": "b2c-flow.md",
+        "bytes": 48181,
+        "sha256": "f4bf618d212b9a14bae9341c32edc53f73974660e0e5f933fb0d798c02548fd0",
+        "lines": 322
+      },
+      {
+        "file": "contract-coverage.json",
+        "bytes": 63376,
+        "sha256": "22663ff57b91adaf8e4bad1382bb4cdf3497732bf335d3352580ccb744d11994",
+        "lines": 1651
+      },
+      {
+        "file": "documentation-audit.md",
+        "bytes": 9269,
+        "sha256": "506c01211c4ea4eb9c35d8c67f49c788dec1e781fea48765b2a9db02dad6f6c0",
+        "lines": 71
+      },
+      {
+        "file": "handoff-audit.md",
+        "bytes": 6499,
+        "sha256": "85a9bbe9958428513701f52a1e4c02a49bdd00ad5235ee88d65ec4e18d892d1b",
+        "lines": 42
+      },
+      {
+        "file": "handoff-manifest.json",
+        "bytes": 7331,
+        "sha256": "c44192898e41794ce5d09885bb1eac16a46921d21a0506e6333580c7605722b8",
+        "lines": 191
+      },
+      {
+        "file": "integration-readiness.md",
+        "bytes": 21242,
+        "sha256": "758fd46e2be6330829b297df76a2f488490fa0e7ef6b2a3c4644d0720348bd97",
+        "lines": 245
+      },
+      {
+        "file": "modules/AUTH_FRONTEND.md",
+        "bytes": 27546,
+        "sha256": "a3ea3b7a20becb24b9d47f186d5d0dc42eababd55499da291825360be3cff4dd",
+        "lines": 234
+      },
+      {
+        "file": "modules/CART_FRONTEND.md",
+        "bytes": 34010,
+        "sha256": "0c8a73cf0c5f567dc4f43ed484f810bb456956d494306f5f89cbf281903f2758",
+        "lines": 324
+      },
+      {
+        "file": "modules/CATEGORIES_FRONTEND.md",
+        "bytes": 21531,
+        "sha256": "47544fd5b6a6ff464207f85700ef55453cc71471c9769a78d34a19becab95077",
+        "lines": 219
+      },
+      {
+        "file": "modules/COUPONS_FRONTEND.md",
+        "bytes": 35349,
+        "sha256": "a62f6efe1fa6b2a2c68c15d8ff9946367121c42cb1abbb478c4e030f78ad1865",
+        "lines": 380
+      },
+      {
+        "file": "modules/EMAIL_DELIVERY_FRONTEND.md",
+        "bytes": 19141,
+        "sha256": "0dadccee842ffe764979328c2f00c3b4787d20cfc51e443e91dc43b8aa11b826",
+        "lines": 142
+      },
+      {
+        "file": "modules/FORMS_FRONTEND.md",
+        "bytes": 33906,
+        "sha256": "2adabb15c07897eedfac515bcfeefac328f7941eb8f3f50711083ee06b9e1ca5",
+        "lines": 296
+      },
+      {
+        "file": "modules/LEADS_FRONTEND.md",
+        "bytes": 57815,
+        "sha256": "6b810bd704842b0236846bea017ffbac897fa4b23664c237ca56653be485c490",
+        "lines": 445
+      },
+      {
+        "file": "modules/MEDIA_FRONTEND.md",
+        "bytes": 20118,
+        "sha256": "392143c1b88155e1ef293a0c70732564f90b8ed0d4992b55192aefe6e829f364",
+        "lines": 158
+      },
+      {
+        "file": "modules/NOTIFICATIONS_FRONTEND.md",
+        "bytes": 19727,
+        "sha256": "dd1776d0aac547d583aa674aebc29b3d91f848466a6c72eacf11d682d185ed5d",
+        "lines": 213
+      },
+      {
+        "file": "modules/ORDERS_FRONTEND.md",
+        "bytes": 65022,
+        "sha256": "bd0395fde418fea2ac5dc52d98abcdfded4d276d2ebc5ff73267ce25bd2e6220",
+        "lines": 652
+      },
+      {
+        "file": "modules/PRODUCTS_FRONTEND.md",
+        "bytes": 46813,
+        "sha256": "a250a32bff665f5cb627ef4bc9e599b1d45a68c960785f7098bb36814d65c39c",
+        "lines": 465
+      },
+      {
+        "file": "modules/SALES_FRONTEND.md",
+        "bytes": 23788,
+        "sha256": "0c274ea438c8e5f385f01dd270c3b929ee2a86323e83761e4c083d750e53ee00",
+        "lines": 248
+      },
+      {
+        "file": "modules/SHIPPING_FRONTEND.md",
+        "bytes": 16183,
+        "sha256": "b1d14b6ab1d5f35b63367874104a9df52697ad20e477229d67ad552fc0ff1320",
+        "lines": 183
+      },
+      {
+        "file": "modules/USERS_FRONTEND.md",
+        "bytes": 33581,
+        "sha256": "07e23bd48022472e66fc464bbb361f3953b305daa5c4e7e45dc4793978ad31d6",
+        "lines": 364
+      },
+      {
+        "file": "modules/WHOLESALE_FRONTEND.md",
+        "bytes": 40116,
+        "sha256": "8b4dedb7fd5c4c212c8f0bb8da68b977fd8d3648ba6118a5ff82b0198e2bb042",
+        "lines": 319
+      },
+      {
+        "file": "modules/WISHLIST_FRONTEND.md",
+        "bytes": 27961,
+        "sha256": "5f6847fb26f9344e588ac0c9f78d90dc0b271aca68c7fd471468adb48c7cdcf7",
+        "lines": 307
+      },
+      {
+        "file": "references/architecture.md",
+        "bytes": 137820,
+        "sha256": "adb9c4c052e19fab959187d4d8654f7f4943eca9736a8702e1049eef061a0f20",
+        "lines": 741
+      },
+      {
+        "file": "references/security.md",
+        "bytes": 17970,
+        "sha256": "4dd13b49985f6aabfbfc136c1c4d97f2f758dcf57124a7ea0fd310ce3b08927b",
+        "lines": 102
+      }
+    ],
+    "moduleDocuments": 16,
+    "businessOperations": 135,
+    "healthOperations": 2,
+    "openapiOperations": 137,
+    "openapiPaths": 97,
+    "postmanRequests": 137,
+    "savedResponses": 370,
+    "localRefs": 134,
+    "localLinkCount": 336,
+    "fencedJsonCount": 69,
+    "manifestProblems": [],
+    "linkProblems": [],
+    "fencedJsonProblems": [],
+    "routeProblems": [],
+    "refProblems": [],
+    "responseJsonProblems": [],
+    "coverageProblems": []
+  },
+  "current": {
+    "name": "New Backend Files",
+    "files": [
+      {
+        "file": "README.md",
+        "bytes": 10868,
+        "sha256": "618bfc2e9954b4811714e98bfdf271cbb8fc4c960749fc99d37d9161b0e77b38",
+        "lines": 93
+      },
+      {
+        "file": "api-conventions.md",
+        "bytes": 44166,
+        "sha256": "b1fa420c4f934b348c450433fe11bb4512c8436d2ea25f5cc4969aa82663e00b",
+        "lines": 289
+      },
+      {
+        "file": "api/README.md",
+        "bytes": 32331,
+        "sha256": "9f416662fbf3fa4c3f08ecb630b4e01a8ebe4da1cb303486bc73f3f0609b8975",
+        "lines": 175
+      },
+      {
+        "file": "api/example-manifest.json",
+        "bytes": 48918,
+        "sha256": "95801914371d6f56edc0ae237dae35139ebcc184a7c8f30fd67ad6acf8f5f3ee",
+        "lines": 2059
+      },
+      {
+        "file": "api/examples-verification.json",
+        "bytes": 24733,
+        "sha256": "7ea9b97e7e5c7cd1dc343311fd35af55b2acfe7f0d26a8e7a673b4cdcc82e37f",
+        "lines": 1033
+      },
+      {
+        "file": "api/import-log.jsonl",
+        "bytes": 42162,
+        "sha256": "2d620d559f58ed3a81c501ef2fae258110f2ed18a4f9ad5198d376ebc912fc0d",
+        "lines": 58
+      },
+      {
+        "file": "api/local-example-checks.json",
+        "bytes": 2045,
+        "sha256": "33823f418c4cfa1825e9aa6b82ac2d40eb7012b6d11efe579924b2a8944ff9bc",
+        "lines": 69
+      },
+      {
+        "file": "api/narmer.openapi.json",
+        "bytes": 9250581,
+        "sha256": "c5b893413814af5b2418ee0efda88e9ba1f561e8932be447892fb33ad63dbf1f",
+        "lines": 67829
+      },
+      {
+        "file": "api/narmer.postman.json",
+        "bytes": 2196054,
+        "sha256": "d2dfb6b5bb20cb949d0c79a96ba9987503b046b9a1ed5521da86ae8523bc8227",
+        "lines": 40606
+      },
+      {
+        "file": "api/native-case-import.json",
+        "bytes": 1274,
+        "sha256": "63b4742dad12263c7f5c160b8f65b2f07d04b36f0d9efacb2670315724b4fb54",
+        "lines": 34
+      },
+      {
+        "file": "api/routes.json",
+        "bytes": 25007,
+        "sha256": "2a6a0b18ae2817de66807f6f777c74eef3995f9a5daf62748bb27d34ffe9e1a6",
+        "lines": 1130
+      },
+      {
+        "file": "api/verification.json",
+        "bytes": 22191,
+        "sha256": "96f9c67a3ae3e3381984d3c1690c3b1dcf03465b91caf7b2a8d3d317b6e8eabf",
+        "lines": 582
+      },
+      {
+        "file": "b2b-flow.md",
+        "bytes": 35763,
+        "sha256": "e3753cf497da7c110ce53d45fcba8e3c113e39458d6957795ab19374db70e177",
+        "lines": 230
+      },
+      {
+        "file": "b2c-flow.md",
+        "bytes": 58644,
+        "sha256": "b4629be8f439ff63c614a5c3981e36eca5330d10db724b6bf65974515c1efb2d",
+        "lines": 363
+      },
+      {
+        "file": "backend-response.md",
+        "bytes": 9559,
+        "sha256": "bdd5ea261edf32bde3578ba947ec65693d0359b602d7ed2d6e6567d3374c5ead",
+        "lines": 51
+      },
+      {
+        "file": "contract-coverage.json",
+        "bytes": 92950,
+        "sha256": "985fb524dba3f02425ca55eca21e965f97b5dc64baa4c550e7b568aee69ddffc",
+        "lines": 2306
+      },
+      {
+        "file": "documentation-audit.md",
+        "bytes": 11343,
+        "sha256": "7071e32a77a7b97008412bd5f93a9cb8f0058badb755d95552dd29d021157c0a",
+        "lines": 83
+      },
+      {
+        "file": "handoff-audit.md",
+        "bytes": 16188,
+        "sha256": "1acb06ce87467210066f7b405e42746801d606330f08a12925687cbef1c165e4",
+        "lines": 79
+      },
+      {
+        "file": "handoff-manifest.json",
+        "bytes": 8372,
+        "sha256": "3a1d91c30ba57994214ed52737add3296834c8a2d0bc66632f2c7596b2b2e9a6",
+        "lines": 216
+      },
+      {
+        "file": "integration-readiness.md",
+        "bytes": 35146,
+        "sha256": "5df3537c922dd980c7c3daf6d5a62df4c6709dbd8c88ac9f7cbdbf16c34636ab",
+        "lines": 328
+      },
+      {
+        "file": "modules/AUTH_FRONTEND.md",
+        "bytes": 28192,
+        "sha256": "791b6683cdb471d2052fce58c9d44d644a24d85f14a1817f0f827eee1f8e8fd3",
+        "lines": 236
+      },
+      {
+        "file": "modules/CART_FRONTEND.md",
+        "bytes": 34385,
+        "sha256": "61baf8254e0d50fb5b7d6786c3ad64238a579a9d061cee6e2ac7c898e4f47572",
+        "lines": 329
+      },
+      {
+        "file": "modules/CATEGORIES_FRONTEND.md",
+        "bytes": 22380,
+        "sha256": "a397bc30fecede20e8d3f59f6590230e38757373667ab40599a210c1d09f7728",
+        "lines": 221
+      },
+      {
+        "file": "modules/COUPONS_FRONTEND.md",
+        "bytes": 35349,
+        "sha256": "a62f6efe1fa6b2a2c68c15d8ff9946367121c42cb1abbb478c4e030f78ad1865",
+        "lines": 380
+      },
+      {
+        "file": "modules/EMAIL_DELIVERY_FRONTEND.md",
+        "bytes": 19141,
+        "sha256": "0dadccee842ffe764979328c2f00c3b4787d20cfc51e443e91dc43b8aa11b826",
+        "lines": 142
+      },
+      {
+        "file": "modules/FORMS_FRONTEND.md",
+        "bytes": 33906,
+        "sha256": "2adabb15c07897eedfac515bcfeefac328f7941eb8f3f50711083ee06b9e1ca5",
+        "lines": 296
+      },
+      {
+        "file": "modules/HOMEPAGE_FRONTEND.md",
+        "bytes": 41293,
+        "sha256": "7f8943bfb91a22d4ca95e41bbd693eaafc817a29aa353c06395284b5c69be0e0",
+        "lines": 373
+      },
+      {
+        "file": "modules/LEADS_FRONTEND.md",
+        "bytes": 57815,
+        "sha256": "6b810bd704842b0236846bea017ffbac897fa4b23664c237ca56653be485c490",
+        "lines": 445
+      },
+      {
+        "file": "modules/MEDIA_FRONTEND.md",
+        "bytes": 23718,
+        "sha256": "417b1cd7a761aa626c9265b15b03f2260745bffa6511b56aa3552fa659f173e4",
+        "lines": 175
+      },
+      {
+        "file": "modules/NOTIFICATIONS_FRONTEND.md",
+        "bytes": 19727,
+        "sha256": "dd1776d0aac547d583aa674aebc29b3d91f848466a6c72eacf11d682d185ed5d",
+        "lines": 213
+      },
+      {
+        "file": "modules/ORDERS_FRONTEND.md",
+        "bytes": 66790,
+        "sha256": "a1981a0b2593b621955873335e88b8e31474e5ead63fee845d54af6e5c604af5",
+        "lines": 660
+      },
+      {
+        "file": "modules/PRODUCTS_FRONTEND.md",
+        "bytes": 62792,
+        "sha256": "37db12264114aad3e11b50423abc5ccd1a51ee4cce84fa22b854533fa0648ca9",
+        "lines": 631
+      },
+      {
+        "file": "modules/REPORTS_FRONTEND.md",
+        "bytes": 25588,
+        "sha256": "60b0a81253d428c9cda41ba28dba20ed437d575f6b70615544b9398185dc5a6f",
+        "lines": 209
+      },
+      {
+        "file": "modules/SALES_FRONTEND.md",
+        "bytes": 23788,
+        "sha256": "0c274ea438c8e5f385f01dd270c3b929ee2a86323e83761e4c083d750e53ee00",
+        "lines": 248
+      },
+      {
+        "file": "modules/SHIPPING_FRONTEND.md",
+        "bytes": 16183,
+        "sha256": "b1d14b6ab1d5f35b63367874104a9df52697ad20e477229d67ad552fc0ff1320",
+        "lines": 183
+      },
+      {
+        "file": "modules/SITESETTINGS_FRONTEND.md",
+        "bytes": 27416,
+        "sha256": "a4d28e8060f5391cfa8d8718daca50cbbe2a89902ee9f32ed56c8939ee1fbfed",
+        "lines": 265
+      },
+      {
+        "file": "modules/SIZECHARTS_FRONTEND.md",
+        "bytes": 20276,
+        "sha256": "5f5d51f8e21e170a6e11da557df91968c286a0893983910d754c7e879e4b95ab",
+        "lines": 190
+      },
+      {
+        "file": "modules/USERS_FRONTEND.md",
+        "bytes": 33581,
+        "sha256": "07e23bd48022472e66fc464bbb361f3953b305daa5c4e7e45dc4793978ad31d6",
+        "lines": 364
+      },
+      {
+        "file": "modules/WHOLESALE_FRONTEND.md",
+        "bytes": 40116,
+        "sha256": "8b4dedb7fd5c4c212c8f0bb8da68b977fd8d3648ba6118a5ff82b0198e2bb042",
+        "lines": 319
+      },
+      {
+        "file": "modules/WISHLIST_FRONTEND.md",
+        "bytes": 28284,
+        "sha256": "40ab7fb4fe8d890064910ae4c3151a2ce001f850d46d2870ac2e50ea7089dea0",
+        "lines": 312
+      },
+      {
+        "file": "references/architecture.md",
+        "bytes": 148048,
+        "sha256": "96ade5691a6d1f2c7d2c5a2e6d5ae1d8ea5be99cdf3377ebfc42945318e57dfe",
+        "lines": 786
+      },
+      {
+        "file": "references/security.md",
+        "bytes": 31440,
+        "sha256": "0b8ba754cab8c32c4287f6d40e006bc3ba06a65c173e5fa854c4bed48fb156fd",
+        "lines": 165
+      }
+    ],
+    "moduleDocuments": 20,
+    "businessOperations": 159,
+    "healthOperations": 2,
+    "openapiOperations": 161,
+    "openapiPaths": 114,
+    "postmanRequests": 161,
+    "savedResponses": 496,
+    "localRefs": 157,
+    "localLinkCount": 454,
+    "fencedJsonCount": 85,
+    "manifestProblems": [],
+    "linkProblems": [],
+    "fencedJsonProblems": [],
+    "routeProblems": [],
+    "refProblems": [],
+    "responseJsonProblems": [],
+    "coverageProblems": []
+  },
+  "comparison": [
+    {
+      "file": "README.md",
+      "state": "changed"
+    },
+    {
+      "file": "api-conventions.md",
+      "state": "changed"
+    },
+    {
+      "file": "api/README.md",
+      "state": "changed"
+    },
+    {
+      "file": "api/example-manifest.json",
+      "state": "changed"
+    },
+    {
+      "file": "api/examples-verification.json",
+      "state": "changed"
+    },
+    {
+      "file": "api/import-log.jsonl",
+      "state": "identical"
+    },
+    {
+      "file": "api/local-example-checks.json",
+      "state": "changed"
+    },
+    {
+      "file": "api/narmer.openapi.json",
+      "state": "changed"
+    },
+    {
+      "file": "api/narmer.postman.json",
+      "state": "changed"
+    },
+    {
+      "file": "api/native-case-import.json",
+      "state": "identical"
+    },
+    {
+      "file": "api/routes.json",
+      "state": "changed"
+    },
+    {
+      "file": "api/verification.json",
+      "state": "changed"
+    },
+    {
+      "file": "b2b-flow.md",
+      "state": "changed"
+    },
+    {
+      "file": "b2c-flow.md",
+      "state": "changed"
+    },
+    {
+      "file": "backend-response.md",
+      "state": "added"
+    },
+    {
+      "file": "contract-coverage.json",
+      "state": "changed"
+    },
+    {
+      "file": "documentation-audit.md",
+      "state": "changed"
+    },
+    {
+      "file": "handoff-audit.md",
+      "state": "changed"
+    },
+    {
+      "file": "handoff-manifest.json",
+      "state": "changed"
+    },
+    {
+      "file": "integration-readiness.md",
+      "state": "changed"
+    },
+    {
+      "file": "modules/AUTH_FRONTEND.md",
+      "state": "changed"
+    },
+    {
+      "file": "modules/CART_FRONTEND.md",
+      "state": "changed"
+    },
+    {
+      "file": "modules/CATEGORIES_FRONTEND.md",
+      "state": "changed"
+    },
+    {
+      "file": "modules/COUPONS_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/EMAIL_DELIVERY_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/FORMS_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/HOMEPAGE_FRONTEND.md",
+      "state": "added"
+    },
+    {
+      "file": "modules/LEADS_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/MEDIA_FRONTEND.md",
+      "state": "changed"
+    },
+    {
+      "file": "modules/NOTIFICATIONS_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/ORDERS_FRONTEND.md",
+      "state": "changed"
+    },
+    {
+      "file": "modules/PRODUCTS_FRONTEND.md",
+      "state": "changed"
+    },
+    {
+      "file": "modules/REPORTS_FRONTEND.md",
+      "state": "added"
+    },
+    {
+      "file": "modules/SALES_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/SHIPPING_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/SITESETTINGS_FRONTEND.md",
+      "state": "added"
+    },
+    {
+      "file": "modules/SIZECHARTS_FRONTEND.md",
+      "state": "added"
+    },
+    {
+      "file": "modules/USERS_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/WHOLESALE_FRONTEND.md",
+      "state": "identical"
+    },
+    {
+      "file": "modules/WISHLIST_FRONTEND.md",
+      "state": "changed"
+    },
+    {
+      "file": "references/architecture.md",
+      "state": "changed"
+    },
+    {
+      "file": "references/security.md",
+      "state": "changed"
+    }
+  ],
+  "addedOperations": [
+    "GET /api/v1/b2c/site-settings",
+    "GET /api/v1/b2c/homepage",
+    "GET /api/v1/b2c/products/facets",
+    "GET /api/v1/b2b/site-settings",
+    "GET /api/v1/b2b/homepage",
+    "GET /api/v1/admin/b2c/site-settings",
+    "PATCH /api/v1/admin/b2c/site-settings",
+    "GET /api/v1/admin/b2c/homepage",
+    "PATCH /api/v1/admin/b2c/homepage",
+    "POST /api/v1/admin/b2c/homepage/media/{slotKey}/{device}",
+    "GET /api/v1/admin/b2c/size-charts",
+    "POST /api/v1/admin/b2c/size-charts",
+    "GET /api/v1/admin/b2c/size-charts/{chartId}",
+    "PATCH /api/v1/admin/b2c/size-charts/{chartId}",
+    "DELETE /api/v1/admin/b2c/size-charts/{chartId}",
+    "POST /api/v1/admin/b2c/size-charts/{chartId}/images/{language}",
+    "GET /api/v1/admin/b2c/reports/overview",
+    "GET /api/v1/admin/b2c/reports/finance",
+    "GET /api/v1/admin/b2c/reports/sales-performance",
+    "GET /api/v1/admin/b2b/site-settings",
+    "PATCH /api/v1/admin/b2b/site-settings",
+    "GET /api/v1/admin/b2b/homepage",
+    "PATCH /api/v1/admin/b2b/homepage",
+    "POST /api/v1/admin/b2b/homepage/media/{slotKey}/{device}"
+  ],
+  "removedOperations": []
+}
