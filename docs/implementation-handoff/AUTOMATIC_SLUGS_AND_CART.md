@@ -22,3 +22,20 @@
 - B2C formatting and lint passed. The Vercel build passed, including public-HTML and asset checks for 34 English/Arabic pages. Hosted verification follows the testing deployment.
 
 Local screenshots and supporting evidence: `output/slug-cart-review/`.
+
+## Compact cart cards — subsequent owner refinement
+
+The owner requested smaller stacked item cards and then explicitly requested a trash icon at each card's upper-right corner. The B2C cart now uses 104 px desktop photos and 76 px mobile photos, grouped option/unit-price details, compact quantity controls and a clearly separated line total. Cards have a thin brand border and no added shadow. The order summary stays beside the cards on desktop and follows them on mobile.
+
+The trash icon is 18 px inside a 44 × 44 px button, with its original accessible Remove item label and a tooltip. It mirrors to the upper-left in Arabic. Quantity buttons also retain 44 × 44 px touch targets. Names and stock/validation messages can wrap; no text is truncated or required controls hidden.
+
+Chrome fixture verification:
+
+- Two desktop cards measured 164 px each and both fit in the test viewport.
+- English cards at the 390 px mobile viewport setting measured about 180 px each.
+- Arabic checks passed at 320, 414 and 768 px viewport settings; document width equaled scroll width in each case.
+- Invalid quantity zero showed its readable Arabic message with no horizontal overflow. Correcting it and increasing quantity updated the canonical cart.
+- The second card's trash button removed only the second fixture item.
+- Screenshots and geometry are saved under `output/slug-cart-review/compact-cart-*`.
+
+Cart/order calculations, stock validation, mutation safeguards, automatic guest-item combining and checkout behavior are unchanged by this layout refinement. These UI checks used local fixture carts; no live customer cart was edited.

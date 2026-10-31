@@ -4,6 +4,7 @@ import { useLocale } from '../../../shared/ui/Locale.jsx'
 import { useRuntime, useSession } from '../../../shared/ui/Runtime.jsx'
 import { Metadata } from '../../../shared/ui/Metadata.jsx'
 import { Button, Feedback } from '../../../shared/ui/Primitives.jsx'
+import { Icon } from '../../../shared/ui/Brand.jsx'
 import { formatMoney } from '../../../shared/lib/money.js'
 import { config } from '../app/config.js'
 import { useShop } from '../features/shop/ShopProvider.jsx'
@@ -19,7 +20,7 @@ export default function Cart() {
     { user } = useSession(),
     { restoring } = useRuntime()
   return (
-    <div className="shop-page">
+    <div className="shop-page cart-page">
       <Metadata
         config={config}
         title={`${ar ? 'سلة التسوق' : 'Your shopping cart'} | Narmer`}
@@ -292,18 +293,20 @@ function CartLine({ line, update, disabled }) {
             'Unavailable product'
           )}
         </h2>
-        {line.values && (
+        <div className="cart-line-meta">
+          {line.values && (
+            <p>
+              {selectedLabels?.length
+                ? selectedLabels.join(' · ')
+                : ar
+                  ? 'الخيار المحدد'
+                  : 'Selected variant'}
+            </p>
+          )}
           <p>
-            {selectedLabels?.length
-              ? selectedLabels.join(' · ')
-              : ar
-                ? 'الخيار المحدد'
-                : 'Selected variant'}
+            <bdi>{formatMoney(line.unitPrice, language)}</bdi> {ar ? 'للقطعة' : 'each'}
           </p>
-        )}
-        <p>
-          <bdi>{formatMoney(line.unitPrice, language)}</bdi> {ar ? 'للقطعة' : 'each'}
-        </p>
+        </div>
         {line.status !== 'available' && (
           <p className="field-error">
             {line.status === 'insufficient_stock'
@@ -315,24 +318,33 @@ function CartLine({ line, update, disabled }) {
                 : 'This selection is no longer available. You can remove it.'}
           </p>
         )}
-        <Quantity
-          value={quantity ?? line.quantity}
-          onChange={(value) => {
-            setQuantity(value)
-            setQuantityError('')
-          }}
-          onCommit={commit}
-          error={quantityError}
-          max={max}
-          disabled={disabled || line.status === 'unavailable'}
-        />
-        <p>
-          <bdi>{formatMoney(line.lineTotal, language)}</bdi>
-        </p>
-        <Button variant="secondary" onClick={() => update(line, 0)} disabled={disabled}>
-          {ar ? 'إزالة المنتج' : 'Remove item'}
-        </Button>
+        <div className="cart-line-footer">
+          <Quantity
+            value={quantity ?? line.quantity}
+            onChange={(value) => {
+              setQuantity(value)
+              setQuantityError('')
+            }}
+            onCommit={commit}
+            error={quantityError}
+            max={max}
+            disabled={disabled || line.status === 'unavailable'}
+          />
+          <p className="cart-line-total">
+            <bdi>{formatMoney(line.lineTotal, language)}</bdi>
+          </p>
+        </div>
       </div>
+      <Button
+        className="cart-line-remove"
+        variant="secondary"
+        aria-label={ar ? 'إزالة المنتج' : 'Remove item'}
+        title={ar ? 'إزالة المنتج' : 'Remove item'}
+        onClick={() => update(line, 0)}
+        disabled={disabled}
+      >
+        <Icon name="trash" />
+      </Button>
     </article>
   )
 }
