@@ -5,9 +5,43 @@ import {
   emptyProduct,
   productPayload,
   sizeChartPayload,
+  updateCatalogName,
   validateMeasurements,
 } from '../../B2C-Website/src/features/dashboard/catalog.js'
 import { createCatalogFixture } from '../../B2C-Website/src/features/dashboard/catalog-fixtures.js'
+
+test('new catalog slugs follow only the English name and respect URL limits', () => {
+  let draft = emptyProduct()
+  draft = updateCatalogName(draft, { en: '', ar: 'هودي نارمر' }, true)
+  assert.equal(draft.slug, '')
+  draft = updateCatalogName(draft, { ...draft.name, en: '  Narmer Hoodie — Pink!  ' }, true)
+  assert.equal(draft.slug, 'narmer-hoodie-pink')
+  draft = updateCatalogName(draft, { ...draft.name, en: 'Café Cotton & Linen' }, true)
+  assert.equal(draft.slug, 'cafe-cotton-and-linen')
+  draft = updateCatalogName(draft, { ...draft.name, en: 'Cotton '.repeat(30) }, true)
+  assert.ok(draft.slug.length <= 150)
+  assert.match(draft.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+  draft = updateCatalogName(draft, { ...draft.name, en: '' }, true)
+  assert.equal(draft.slug, '')
+})
+
+test('catalog renames preserve custom and already saved slugs', () => {
+  const draft = {
+    ...emptyProduct(),
+    name: { en: 'Hoodies', ar: 'هودي' },
+    slug: 'mens-hoodies',
+  }
+  assert.equal(
+    updateCatalogName(draft, { ...draft.name, en: 'Cotton hoodies' }, true).slug,
+    draft.slug,
+  )
+  assert.equal(updateCatalogName(draft, { ...draft.name, ar: 'هوديز' }, true).slug, draft.slug)
+  const saved = { ...draft, id: '000000000000000000000001', slug: 'hoodies' }
+  assert.equal(
+    updateCatalogName(saved, { ...saved.name, en: 'Cotton hoodies' }, false).slug,
+    saved.slug,
+  )
+})
 
 test('product type remains immutable and money stays integer piastres', () => {
   const draft = {

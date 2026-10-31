@@ -16,7 +16,11 @@ import { RecordEditor } from '../features/dashboard/RecordEditor.jsx'
 import { MediaPicker } from '../features/dashboard/MediaPicker.jsx'
 import { DeleteRecord } from '../features/dashboard/DeleteRecord.jsx'
 import { BilingualFields } from '../features/dashboard/components.jsx'
-import { categoryPayload, flattenCategories } from '../features/dashboard/catalog.js'
+import {
+  categoryPayload,
+  flattenCategories,
+  updateCatalogName,
+} from '../features/dashboard/catalog.js'
 
 function categoryOptions(nodes = [], excludedId, depth = 0) {
   return nodes.flatMap((node) =>
@@ -157,7 +161,7 @@ function CategoryEditor({ initial, create }) {
                 label={ar ? 'الاسم *' : 'Name *'}
                 required
                 value={draft.name}
-                onChange={(name) => setDraft({ ...draft, name })}
+                onChange={(name) => setDraft(updateCatalogName(draft, name, create))}
               />
               <BilingualFields
                 label={ar ? 'الوصف' : 'Description'}
@@ -170,9 +174,22 @@ function CategoryEditor({ initial, create }) {
                 <span>Slug</span>
                 <input
                   required
+                  aria-label="Slug"
+                  aria-describedby={create ? 'category-slug-help' : undefined}
+                  lang="en"
+                  dir="ltr"
+                  maxLength={150}
+                  pattern="[a-z0-9]+(-[a-z0-9]+)*"
                   value={draft.slug}
                   onChange={(e) => setDraft({ ...draft, slug: e.target.value })}
                 />
+                {create && (
+                  <small id="category-slug-help">
+                    {ar
+                      ? 'يُنشأ تلقائيًا من الاسم الإنجليزي، ويمكنك تعديله.'
+                      : 'Generated from the English name. You can edit it.'}
+                  </small>
+                )}
               </label>
               <SelectField
                 label={ar ? 'التصنيف الأصل' : 'Parent category'}

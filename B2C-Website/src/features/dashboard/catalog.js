@@ -1,3 +1,14 @@
+import slugify from 'slugify'
+
+const titleSlug = (title) =>
+  slugify(title, { lower: true, strict: true, locale: 'en' }).slice(0, 150).replace(/-$/, '')
+
+export function updateCatalogName(draft, name, create) {
+  const generate =
+    create && name.en !== draft.name.en && (!draft.slug || draft.slug === titleSlug(draft.name.en))
+  return { ...draft, name, ...(generate ? { slug: titleSlug(name.en) } : {}) }
+}
+
 export const emptyProduct = (type = 'simple') => ({
   type,
   categoryId: '',

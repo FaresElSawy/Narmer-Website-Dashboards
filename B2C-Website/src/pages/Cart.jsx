@@ -56,7 +56,6 @@ function CartContents() {
   const [guest, setGuest] = useState(false),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(null),
-    [mergeNotice, setMergeNotice] = useState(''),
     [order, setOrder] = useState({ account: [], guest: [] })
   const mutation = useRef(false)
   const state = useShopRead(
@@ -68,7 +67,6 @@ function CartContents() {
     mutation.current = true
     setBusy(true)
     setError(null)
-    setMergeNotice('')
     try {
       const data = await api.setQuantity(
         { productId: line.productId, variantId: line.variantId, quantity },
@@ -93,39 +91,22 @@ function CartContents() {
     mutation.current = true
     setBusy(true)
     setError(null)
-    setMergeNotice(ar ? 'جارٍ دمج السلتين...' : 'Merging carts...')
     try {
       const guestCart = await api.cart(true, { language })
       if (session.getSnapshot().user?.id !== auth.user?.id) return
       if (!guestCart.items.length) {
         clearMerge()
-        setMergeNotice(
-          ar ? 'لا توجد منتجات في سلة الزائر لدمجها.' : 'There are no guest items to merge.',
-        )
-        notify(ar ? 'لا توجد منتجات في سلة الزائر لدمجها.' : 'There are no guest items to merge.')
         setGuest(false)
       } else if (await afterLogin(auth.user)) {
         notify(
           ar
-            ? 'تم دمج السلتين وتحديث سلة حسابك.'
-            : 'Carts merged. Your account cart is up to date.',
-        )
-        setMergeNotice(
-          ar
-            ? 'تم دمج السلتين وتحديث سلة حسابك.'
-            : 'Carts merged. Your account cart is up to date.',
+            ? 'أُضيفت اختياراتك المحفوظة إلى سلتك.'
+            : 'Your saved items have been added to your cart.',
         )
         setGuest(false)
-      } else {
-        setMergeNotice(
-          ar
-            ? 'تعذر دمج السلتين. اختياراتك محفوظة ويمكنك المحاولة مجددًا.'
-            : 'The carts could not be merged. Your selections are preserved; you can try again.',
-        )
       }
       state.reload()
     } catch (reason) {
-      setMergeNotice('')
       setError(reason)
     } finally {
       mutation.current = false
@@ -145,38 +126,34 @@ function CartContents() {
   }
   return (
     <>
-      {auth.user?.role === 'user' && (
+      {auth.user?.role === 'user' && merge && (
         <div className="cart-merge">
           <p>
-            {merge
-              ? ar
-                ? 'لم نتمكن من دمج السلتين. اختياراتك محفوظة. راجع سلة الحساب وسلة الزائر، ثم حاول مجددًا.'
-                : 'Your carts could not be merged. Both selections are preserved. Review your account and guest carts, then retry.'
-              : ar
-                ? 'هل لديك اختيارات محفوظة كزائر؟ يمكنك مراجعتها ودمجها.'
-                : 'Have selections saved as a guest? Review and combine them here.'}
+            {ar
+              ? 'تعذر إضافة بعض الاختيارات المحفوظة قبل تسجيل الدخول. اختياراتك محفوظة؛ راجعها وحاول مجددًا.'
+              : 'Some items saved before sign-in could not be added. Your items are safe; review them and try again.'}
           </p>
           <div className="cart-merge-actions">
-            <Button
-              variant={!guest ? 'accent' : 'secondary'}
-              disabled={busy}
-              onClick={() => setGuest(false)}
-            >
-              {ar ? 'سلة الحساب' : 'Account cart'}
-            </Button>
-            <Button
-              variant={guest ? 'accent' : 'secondary'}
-              disabled={busy}
-              onClick={() => setGuest(true)}
-            >
-              {ar ? 'سلة الزائر' : 'Guest cart'}
+            <Button variant="secondary" disabled={busy} onClick={() => setGuest(!guest)}>
+              {guest
+                ? ar
+                  ? 'العودة إلى سلتك'
+                  : 'Back to your cart'
+                : ar
+                  ? 'مراجعة الاختيارات المحفوظة'
+                  : 'Review saved items'}
             </Button>
             <Button variant="secondary" onClick={retryMerge} disabled={busy}>
-              {ar ? 'دمج السلتين' : 'Merge carts'}
+              {busy
+                ? ar
+                  ? 'جارٍ تحديث السلة...'
+                  : 'Updating your cart...'
+                : ar
+                  ? 'حاول مرة أخرى'
+                  : 'Try again'}
             </Button>
           </div>
-          {merge && <ShopError error={merge.error} />}
-          {mergeNotice && <p role="status">{mergeNotice}</p>}
+          <ShopError error={merge.error} />
         </div>
       )}
       {error && <ShopError error={error} />}
@@ -254,8 +231,8 @@ function CartContents() {
             {guest && auth.user && (
               <p className="order-help">
                 {ar
-                  ? 'ادمج سلة الزائر مع سلة حسابك قبل المتابعة لإتمام الطلب.'
-                  : 'Merge the guest selections into your account cart before checkout.'}
+                  ? 'راجع اختياراتك المحفوظة وحاول مجددًا قبل إتمام الطلب.'
+                  : 'Review your saved items and try again before checkout.'}
               </p>
             )}
           </aside>

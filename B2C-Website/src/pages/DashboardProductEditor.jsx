@@ -16,7 +16,7 @@ import {
   SelectField,
   MoneyField,
 } from '../features/dashboard/components.jsx'
-import { emptyProduct, productPayload } from '../features/dashboard/catalog.js'
+import { emptyProduct, productPayload, updateCatalogName } from '../features/dashboard/catalog.js'
 
 function Editor({ initial, create }) {
   const { language } = useDashboard(),
@@ -111,7 +111,7 @@ function Editor({ initial, create }) {
                           label={ar ? 'الاسم *' : 'Name *'}
                           required
                           value={draft.name}
-                          onChange={(name) => setDraft({ ...draft, name })}
+                          onChange={(name) => setDraft(updateCatalogName(draft, name, create))}
                         />
                         <BilingualFields
                           label={ar ? 'الوصف' : 'Description'}
@@ -124,9 +124,22 @@ function Editor({ initial, create }) {
                           <span>Slug</span>
                           <input
                             required
+                            aria-label="Slug"
+                            aria-describedby={create ? 'product-slug-help' : undefined}
+                            lang="en"
+                            dir="ltr"
+                            maxLength={150}
+                            pattern="[a-z0-9]+(-[a-z0-9]+)*"
                             value={draft.slug}
                             onChange={(e) => setDraft({ ...draft, slug: e.target.value })}
                           />
+                          {create && (
+                            <small id="product-slug-help">
+                              {ar
+                                ? 'يُنشأ تلقائيًا من الاسم الإنجليزي، ويمكنك تعديله.'
+                                : 'Generated from the English name. You can edit it.'}
+                            </small>
+                          )}
                         </label>
                         <div>
                           <SelectField

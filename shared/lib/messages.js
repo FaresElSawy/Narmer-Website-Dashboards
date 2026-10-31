@@ -1,4 +1,16 @@
 const messages = {
+  CART_MERGE_CONFLICT: [
+    'Check the availability and quantities of your saved items, then try again.',
+    'راجع إتاحة اختياراتك المحفوظة وكمياتها، ثم حاول مجددًا.',
+  ],
+  PRODUCT_SLUG_EXISTS: [
+    'This product URL name is already in use. Edit the slug and save again.',
+    'اسم رابط المنتج مستخدم بالفعل. عدّل حقل Slug ثم احفظ مجددًا.',
+  ],
+  CATEGORY_SLUG_EXISTS: [
+    'This category URL name is already in use. Edit the slug and save again.',
+    'اسم رابط التصنيف مستخدم بالفعل. عدّل حقل Slug ثم احفظ مجددًا.',
+  ],
   CART_INSUFFICIENT_STOCK: [
     'The quantity already in your cart plus this selection exceeds available stock. Reduce the quantity or review your cart.',
     'الكمية الموجودة في السلة مع هذا الاختيار تتجاوز المخزون المتاح. قلل الكمية أو راجع السلة.',

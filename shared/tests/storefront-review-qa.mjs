@@ -187,23 +187,9 @@ for (const engine of ['chromium', 'webkit']) {
             await page.locator('.auth-panel form button[type="submit"]').click()
             await page.waitForURL(`**/${language}/account`)
             await page.locator(`.header-actions a[href="/${language}/cart"]`).click()
-            await page.locator('.cart-merge').waitFor()
-            const buttons = await page.locator('.cart-merge-actions .button').all()
-            const a = await buttons[0].boundingBox(),
-              b = await buttons[1].boundingBox(),
-              c = await buttons[2].boundingBox()
-            assert.ok(
-              (Math.abs(a.y - b.y) < 1 &&
-                c.y >= a.y + a.height + 7 &&
-                Math.abs(c.width - (b.x + b.width - a.x)) < 1) ||
-                (ar && Math.abs(c.width - (a.x + a.width - b.x)) < 1),
-              `${id}: merge layout`,
-            )
-            await buttons[2].click()
-            await page
-              .locator('.cart-merge [role="status"]')
-              .filter({ hasText: ar ? 'لا توجد منتجات' : 'There are no guest items' })
-              .waitFor()
+            await page.locator('.cart-line').waitFor()
+            assert.equal(await page.locator('.cart-merge').count(), 0)
+            assert.equal(await page.locator('.cart-summary dd').first().textContent(), '1')
             await fits()
             await page.screenshot({ path: resolve(output, `${id}-cart.png`), fullPage: true })
           }

@@ -444,7 +444,10 @@ for (const engine of ['chromium', 'webkit']) {
           await conflict.page.waitForURL(`**/${language}/cart`)
           await conflict.page.locator('.cart-merge .feedback--error').waitFor()
           await conflict.page
-            .getByRole('button', { name: ar ? 'سلة الزائر' : 'Guest cart', exact: true })
+            .getByRole('button', {
+              name: ar ? 'مراجعة الاختيارات المحفوظة' : 'Review saved items',
+              exact: true,
+            })
             .click()
           await conflict.page.locator('.cart-line input').fill('4')
           await conflict.page.locator('.cart-line input').press('Enter')
@@ -452,19 +455,13 @@ for (const engine of ['chromium', 'webkit']) {
             () => document.querySelector('.cart-summary dd')?.textContent === '4',
           )
           await conflict.page
-            .getByRole('button', { name: ar ? 'دمج السلتين' : 'Merge carts', exact: true })
+            .getByRole('button', { name: ar ? 'حاول مرة أخرى' : 'Try again', exact: true })
             .click()
           await conflict.page.waitForFunction(
             () => document.querySelector('.cart-summary dd')?.textContent === '12',
           )
-          await conflict.page
-            .getByRole('button', { name: ar ? 'دمج السلتين' : 'Merge carts', exact: true })
-            .click()
           await conflict.page.locator('.cart-layout[aria-busy="false"]').waitFor()
-          await conflict.page
-            .locator('.cart-merge [role="status"]')
-            .filter({ hasText: ar ? 'لا توجد منتجات' : 'There are no guest items' })
-            .waitFor()
+          assert.equal(await conflict.page.locator('.cart-merge').count(), 0)
           assert.equal(await conflict.page.locator('.cart-summary dd').first().textContent(), '12')
           assert.deepEqual(conflict.errors, [])
           await conflict.page.evaluate(() => scrollTo(0, 0))
