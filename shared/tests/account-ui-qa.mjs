@@ -56,7 +56,7 @@ try {
             await page.locator('.auth-art img').evaluate((image) => image.decode())
             assert.match(
               await page.locator('.auth-art img').getAttribute('src'),
-              /account-manufacturing/,
+              store === 'b2b' ? /account-manufacturing/ : /customer-login-campaign/,
             )
           }
           await page.locator('input[name="password"]').fill('')

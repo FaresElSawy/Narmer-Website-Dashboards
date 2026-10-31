@@ -300,14 +300,18 @@ function AccountPage({ page }) {
                 <Icon name="arrow" />
               </Link>
             )}
-            {config.store === 'b2b' && customer && (
-              <Link to={`/${language}/requests`}>
+            {config.store === 'b2b' && (
+              <Link to={`/${language}/${customer ? 'requests' : 'dashboard/requests'}`}>
                 <div>
                   <strong>{ar ? 'سجل الطلبات' : 'Request history'}</strong>
                   <p>
-                    {ar
-                      ? 'عرض طلباتك ومتابعة رد الفريق'
-                      : 'View your requests and follow their progress'}
+                    {customer
+                      ? ar
+                        ? 'عرض طلباتك ومتابعة رد الفريق'
+                        : 'View your requests and follow their progress'
+                      : ar
+                        ? 'فتح الطلبات في لوحة تحكم الموظفين'
+                        : 'Open requests in your staff dashboard'}
                   </p>
                 </div>
                 <Icon name="arrow" />
@@ -511,7 +515,7 @@ function AccountPage({ page }) {
   )
 }
 
-function AuthPage({ page }) {
+function AuthPage({ page, image }) {
   const language = useLocale(),
     ar = language === 'ar',
     { config, session, restoring } = useRuntime(),
@@ -641,17 +645,19 @@ function AuthPage({ page }) {
       {page === 'login' && (
         <figure className="auth-art">
           <img
-            src={manufacturingImage}
+            src={image?.src || manufacturingImage}
             alt={
-              ar
+              image?.alt ||
+              (ar
                 ? 'تجهيز أقمشة وقطع ملابس بجانب ماكينة خياطة'
-                : 'Fabric and garment pieces beside a sewing machine'
+                : 'Fabric and garment pieces beside a sewing machine')
             }
             width="704"
             height="600"
           />
           <figcaption>
-            {ar ? 'من القماش إلى ملابسك اليومية.' : 'From fabric to your everyday.'}
+            {image?.caption ||
+              (ar ? 'من القماش إلى ملابسك اليومية.' : 'From fabric to your everyday.')}
           </figcaption>
         </figure>
       )}
@@ -882,7 +888,7 @@ function AuthPage({ page }) {
   )
 }
 
-export function AccountRoutes({ afterLogin }) {
+export function AccountRoutes({ afterLogin, loginImage }) {
   const language = useLocale(),
     { config, api, session } = useRuntime()
   const account = useMemo(() => createAccountApi({ config, api, session }), [config, api, session])
@@ -893,7 +899,7 @@ export function AccountRoutes({ afterLogin }) {
           <Route index element={<AccountPage page="index" />} />
           <Route path="profile" element={<AccountPage page="profile" />} />
           <Route path="addresses" element={<AccountPage page="addresses" />} />
-          <Route path="login" element={<AuthPage page="login" />} />
+          <Route path="login" element={<AuthPage page="login" image={loginImage} />} />
           <Route path="register" element={<AuthPage page="register" />} />
           <Route path="verify" element={<AuthPage page="verify" />} />
           <Route path="forgot-password" element={<AuthPage page="forgot-password" />} />
