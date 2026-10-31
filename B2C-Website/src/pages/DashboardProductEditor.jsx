@@ -317,6 +317,7 @@ function ProductTypeField({ draft, setDraft, create, ar }) {
 
 function VariantEditor({ draft, setDraft, ar }) {
   const { language } = useDashboard()
+  const [definitionsOpen, setDefinitionsOpen] = useState(draft.options.length === 0)
   const addOption = () =>
     setDraft({
       ...draft,
@@ -345,93 +346,109 @@ function VariantEditor({ draft, setDraft, ar }) {
     })
   return (
     <div className="product-variant-list">
-      <details className="staff-options-editor">
+      <details
+        className="staff-options-editor"
+        open={definitionsOpen}
+        onToggle={(event) => setDefinitionsOpen(event.currentTarget.open)}
+      >
         <summary>
-          {ar ? 'تعريف اللون والمقاس' : 'Color and size definitions'} · {draft.options.length}
+          <span className="product-options-heading">
+            <strong>{ar ? 'الألوان والمقاسات' : 'Colors and sizes'}</strong>
+            <span className="product-count">
+              {ar ? `الخيارات: ${draft.options.length}` : `Options: ${draft.options.length}`}
+            </span>
+            <span className="product-options-help">
+              {ar
+                ? 'ابدأ بتحديد الألوان والمقاسات المتاحة، ثم أضف التركيبات بأسعارها ومخزونها.'
+                : 'Start with the available colors and sizes, then add variants with prices and stock.'}
+            </span>
+          </span>
           <Icon name="chevron" />
         </summary>
-        {draft.options.map((option, i) => (
-          <div className="panel staff-panel" key={i}>
-            <label className="field">
-              <span>Option key</span>
-              <input
-                value={option.key}
-                onChange={(e) => {
-                  const options = structuredClone(draft.options)
-                  options[i] = { ...option, key: e.target.value }
-                  setDraft({ ...draft, options })
-                }}
-              />
-            </label>
-            <BilingualFields
-              label={ar ? 'اسم الخيار' : 'Option name'}
-              value={option.name}
-              onChange={(name) => {
-                const options = structuredClone(draft.options)
-                options[i] = { ...option, name }
-                setDraft({ ...draft, options })
-              }}
-            />
-            {option.values.map((value, j) => (
-              <div className="staff-field-pair" key={j}>
-                <label className="field">
-                  <span>{ar ? 'مفتاح القيمة' : 'Value key'}</span>
-                  <input
-                    value={value.key}
-                    onChange={(e) => {
-                      const options = structuredClone(draft.options)
-                      options[i].values[j] = { ...value, key: e.target.value }
-                      setDraft({ ...draft, options })
-                    }}
-                  />
-                </label>
-                <BilingualFields
-                  label={ar ? 'اسم القيمة' : 'Value name'}
-                  value={value.name}
-                  onChange={(name) => {
+        <div className="product-options-content">
+          <Button disabled={draft.options.length >= 5} onClick={addOption}>
+            {ar ? 'إضافة خيار' : 'Add option'}
+          </Button>
+          {draft.options.map((option, i) => (
+            <div className="panel staff-panel" key={i}>
+              <label className="field">
+                <span>Option key</span>
+                <input
+                  value={option.key}
+                  onChange={(e) => {
                     const options = structuredClone(draft.options)
-                    options[i].values[j] = { ...value, name }
+                    options[i] = { ...option, key: e.target.value }
                     setDraft({ ...draft, options })
                   }}
                 />
-                <Button
-                  variant="secondary"
-                  disabled={option.values.length === 1}
-                  onClick={() => {
-                    const options = structuredClone(draft.options)
-                    options[i].values.splice(j, 1)
-                    setDraft({ ...draft, options })
-                  }}
-                >
-                  {ar ? 'إزالة القيمة' : 'Remove value'}
-                </Button>
-              </div>
-            ))}
-            <Button
-              variant="secondary"
-              disabled={option.values.length >= 50}
-              onClick={() => {
-                const options = structuredClone(draft.options)
-                options[i].values.push({ key: '', name: { en: '', ar: '' } })
-                setDraft({ ...draft, options })
-              }}
-            >
-              {ar ? 'إضافة قيمة' : 'Add value'}
-            </Button>
-            <Button
-              variant="secondary"
-              disabled={draft.options.length === 1}
-              onClick={() =>
-                setDraft({ ...draft, options: draft.options.filter((_, index) => index !== i) })
-              }
-            >
-              {ar ? 'إزالة الخيار' : 'Remove option'}
-            </Button>
-          </div>
-        ))}
-        <Button variant="secondary" disabled={draft.options.length >= 5} onClick={addOption}>
-          {ar ? 'إضافة خيار' : 'Add option'}
-        </Button>
+              </label>
+              <BilingualFields
+                label={ar ? 'اسم الخيار' : 'Option name'}
+                value={option.name}
+                onChange={(name) => {
+                  const options = structuredClone(draft.options)
+                  options[i] = { ...option, name }
+                  setDraft({ ...draft, options })
+                }}
+              />
+              {option.values.map((value, j) => (
+                <div className="staff-field-pair" key={j}>
+                  <label className="field">
+                    <span>{ar ? 'مفتاح القيمة' : 'Value key'}</span>
+                    <input
+                      value={value.key}
+                      onChange={(e) => {
+                        const options = structuredClone(draft.options)
+                        options[i].values[j] = { ...value, key: e.target.value }
+                        setDraft({ ...draft, options })
+                      }}
+                    />
+                  </label>
+                  <BilingualFields
+                    label={ar ? 'اسم القيمة' : 'Value name'}
+                    value={value.name}
+                    onChange={(name) => {
+                      const options = structuredClone(draft.options)
+                      options[i].values[j] = { ...value, name }
+                      setDraft({ ...draft, options })
+                    }}
+                  />
+                  <Button
+                    variant="secondary"
+                    disabled={option.values.length === 1}
+                    onClick={() => {
+                      const options = structuredClone(draft.options)
+                      options[i].values.splice(j, 1)
+                      setDraft({ ...draft, options })
+                    }}
+                  >
+                    {ar ? 'إزالة القيمة' : 'Remove value'}
+                  </Button>
+                </div>
+              ))}
+              <Button
+                variant="secondary"
+                disabled={option.values.length >= 50}
+                onClick={() => {
+                  const options = structuredClone(draft.options)
+                  options[i].values.push({ key: '', name: { en: '', ar: '' } })
+                  setDraft({ ...draft, options })
+                }}
+              >
+                {ar ? 'إضافة قيمة' : 'Add value'}
+              </Button>
+              <Button
+                variant="secondary"
+                disabled={draft.options.length === 1}
+                onClick={() =>
+                  setDraft({ ...draft, options: draft.options.filter((_, index) => index !== i) })
+                }
+              >
+                {ar ? 'إزالة الخيار' : 'Remove option'}
+              </Button>
+            </div>
+          ))}
+        </div>
       </details>
       <h3>{ar ? 'التركيبات القابلة للبيع' : 'Sellable variants'}</h3>
       {draft.variants.map((variant, i) => (

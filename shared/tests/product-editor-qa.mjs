@@ -221,6 +221,23 @@ for (const engine of ['chromium', 'webkit']) {
         assert.equal(await page.getByRole('tab').count(), 3)
         await tab('Variants & stock', 'التركيبات والمخزون')
         assert.equal(await type.isVisible(), true)
+        const definitions = page.locator('.staff-options-editor'),
+          addOption = page.getByRole('button', {
+            name: text('Add option', 'إضافة خيار'),
+            exact: true,
+          })
+        assert.equal(await definitions.evaluate((el) => el.open), true)
+        assert.equal(await addOption.isVisible(), true)
+        await addOption.click()
+        assert.equal(await definitions.evaluate((el) => el.open), true)
+        assert.equal(
+          await definitions.locator('.product-options-content > .staff-panel').count(),
+          1,
+        )
+        await definitions.locator('summary').press('Enter')
+        assert.equal(await definitions.evaluate((el) => el.open), false)
+        await definitions.locator('summary').press('Enter')
+        assert.equal(await addOption.isVisible(), true)
         await chooseType('simple')
         assert.equal(await page.getByRole('tab').count(), 2)
         assert.equal(
