@@ -4,6 +4,7 @@ import { Button, Modal, Feedback } from '../../../shared/ui/Primitives.jsx'
 import { localText, compositionRows, isId } from '../features/inquiry/model.js'
 import { useDashboard } from '../features/dashboard/DashboardContext.jsx'
 import { useStaffRead } from '../features/dashboard/hooks.js'
+import whatsappIcon from '../assets/images/whatsapp.png'
 import { whatsappContactUrl } from '../features/dashboard/model.js'
 import {
   StaffHeading,
@@ -133,20 +134,13 @@ export function DashboardRequestDetail() {
                                   : `Contact ${lead.contact.name} on WhatsApp`
                               }
                             >
-                              <svg
+                              <img
+                                src={whatsappIcon}
                                 width="24"
                                 height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.7"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                                alt=""
                                 aria-hidden="true"
-                              >
-                                <path d="M21 11.5a9 9 0 0 1-13.3 7.9L3 21l1.6-4.7A9 9 0 1 1 21 11.5Z" />
-                                <path d="m8 7 2 3-1.2 1.2a10 10 0 0 0 4 4L14 14l3 2c-1 3-4 2-7-1S6 8 8 7Z" />
-                              </svg>
+                              />
                             </a>
                           )}
                         </dd>

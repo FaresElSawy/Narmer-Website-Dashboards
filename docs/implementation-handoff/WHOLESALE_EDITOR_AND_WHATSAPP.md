@@ -26,3 +26,7 @@ The owner reported that Add offer and Edit offer appeared unresponsive on small 
 Screenshots and local evidence: `output/wholesale-request-review/`.
 
 No live offers or requests were created, modified or marked contacted for these checks. Actual WhatsApp app/Web handoff, recipient account availability and physical-device/Safari behavior were not exercised. Both client-review websites use their existing Git-connected Vercel testing deployments.
+
+## Owner-supplied icon refinement
+
+The owner replaced the drawn icon with `D:/Downloads/whatsapp.png`. The exact PNG is bundled at `B2B-Website/src/assets/images/whatsapp.png`; its SHA-256 matches the supplied file. Chrome confirmed a 24 × 24 px image inside the existing 44 × 44 px link target, with the same requester-specific URL, accessible label and tooltip. The staging build passed all 28 public-page checks. No message or live request mutation was performed.
