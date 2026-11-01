@@ -294,6 +294,9 @@
   justify-content: center;
   flex-shrink: 0;
   min-height: 44px;
+  padding: 10px 18px;
+  background: #eaf6ee;
+  border-color: #b5d6c0;
   color: #17613c;
   font-size: 14px;
   font-weight: 600;
@@ -301,7 +304,7 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .staff-contact-phone .staff-whatsapp:hover {
-    text-decoration: underline;
+    background: #dcefe3;
   }
 }
 @media (max-width: 639px) {

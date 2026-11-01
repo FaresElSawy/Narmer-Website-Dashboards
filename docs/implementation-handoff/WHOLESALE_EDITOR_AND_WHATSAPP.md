@@ -33,6 +33,6 @@ The owner replaced the drawn icon with `D:/Downloads/whatsapp.png`. The exact PN
 
 ## Approved text-only refinement, 1 November 2026
 
-The owner's latest choice replaces the icon with green `WhatsApp` / `واتساب` text beside the phone, without an icon, border or pill background. The link keeps a 44 px minimum height, 12 px horizontal gap, hover underline, existing keyboard focus and requester-specific accessible label. Recipient normalization, separate-tab behavior and request status are unchanged.
+The owner first approved green `WhatsApp` / `واتساب` text beside the phone, then requested a rounded light-green button. The final control uses the shared secondary button classes and radius, with a light-green background, subtle green border and dark-green text. It keeps no icon, a 44 px minimum height, 12 px horizontal gap, keyboard focus and requester-specific accessible label. Recipient normalization, separate-tab behavior and request status are unchanged.
 
-The local fixture rendered the English text with no image/SVG, the expected `wa.me` recipient and a 44 px target. Both staging builds passed (38 B2C and 28 B2B public pages). No WhatsApp message was sent.
+The local fixture rendered the English/Arabic text with no image/SVG, the expected `wa.me` recipient, light-green `rgb(234, 246, 238)` background, shared 24 px radius and a 44 px target. Arabic at 390 px had no overflow; keyboard focus retained a visible outline. Both staging builds passed (38 B2C and 28 B2B public pages). No WhatsApp message was sent.

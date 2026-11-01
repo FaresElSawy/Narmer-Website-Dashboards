@@ -121,7 +121,7 @@ export function DashboardRequestDetail() {
                           <span>{value ?? '-'}</span>
                           {key === 'phone' && whatsappUrl && (
                             <a
-                              className="staff-whatsapp"
+                              className="button button--secondary staff-whatsapp"
                               href={whatsappUrl}
                               target="_blank"
                               rel="noopener noreferrer"
