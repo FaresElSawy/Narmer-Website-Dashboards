@@ -1,6 +1,6 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router'
 import { useRef, useState } from 'react'
-import { Button, Tabs } from '../../../shared/ui/Primitives.jsx'
+import { Button, Field, Tabs } from '../../../shared/ui/Primitives.jsx'
 import { Icon } from '../../../shared/ui/Brand.jsx'
 import { formatMoney } from '../../../shared/lib/money.js'
 import { useDashboard } from '../features/dashboard/DashboardContext.jsx'
@@ -16,7 +16,30 @@ import {
   SelectField,
   MoneyField,
 } from '../features/dashboard/components.jsx'
-import { emptyProduct, productPayload, updateCatalogName } from '../features/dashboard/catalog.js'
+import {
+  emptyProduct,
+  productPayload,
+  updateCatalogName,
+  newProductOption,
+  newProductOptionValue,
+  updateOptionName,
+  updateOptionValueName,
+} from '../features/dashboard/catalog.js'
+import { productFieldErrors } from '../features/dashboard/product-validation.js'
+
+const productField = (errors, path) => ({
+  name: path,
+  id: `product-field-${path}`,
+  error: errors[path],
+})
+
+function ProductFieldError({ errors, path }) {
+  return errors[path] ? (
+    <p className="field-error" role="alert" data-field={path} tabIndex={-1}>
+      {errors[path]}
+    </p>
+  ) : null
+}
 
 function Editor({ initial, create }) {
   const { language } = useDashboard(),
@@ -46,6 +69,10 @@ function Editor({ initial, create }) {
           throw error
         }
       }}
+      validate={productFieldErrors}
+      onValidation={(errors) =>
+        setTab(/^(options|variants)(\.|$)/.test(Object.keys(errors)[0]) ? 1 : 0)
+      }
       create={create}
       saveInChildren
       saveLabel={
@@ -60,7 +87,7 @@ function Editor({ initial, create }) {
           : undefined
       }
     >
-      {({ draft, setDraft, saveButton }) => (
+      {({ draft, setDraft, saveButton, fieldErrors }) => (
         <div className="staff-detail-grid product-editor-grid">
           <div>
             {create && (
@@ -108,41 +135,51 @@ function Editor({ initial, create }) {
                       <section className="panel staff-panel">
                         <h2>{ar ? 'محتوى المنتج' : 'Product content'}</h2>
                         <BilingualFields
+                          name="name"
+                          errors={fieldErrors}
                           label={ar ? 'الاسم *' : 'Name *'}
                           required
                           value={draft.name}
                           onChange={(name) => setDraft(updateCatalogName(draft, name, create))}
                         />
                         <BilingualFields
+                          name="description"
+                          errors={fieldErrors}
                           label={ar ? 'الوصف' : 'Description'}
                           multiline
                           maxLength={10000}
                           value={draft.description}
                           onChange={(description) => setDraft({ ...draft, description })}
                         />
-                        <label className="field">
-                          <span>Slug</span>
-                          <input
-                            required
-                            aria-label="Slug"
-                            aria-describedby={create ? 'product-slug-help' : undefined}
-                            lang="en"
-                            dir="ltr"
-                            maxLength={150}
-                            pattern="[a-z0-9]+(-[a-z0-9]+)*"
-                            value={draft.slug}
-                            onChange={(e) => setDraft({ ...draft, slug: e.target.value })}
-                          />
-                          {create && (
-                            <small id="product-slug-help">
-                              {ar
-                                ? 'يُنشأ تلقائيًا من الاسم الإنجليزي، ويمكنك تعديله.'
-                                : 'Generated from the English name. You can edit it.'}
-                            </small>
-                          )}
-                        </label>
+                        <Field
+                          label="Slug"
+                          {...productField(fieldErrors, 'slug')}
+                          required
+                          aria-label="Slug"
+                          aria-describedby={
+                            fieldErrors.slug
+                              ? 'product-field-slug-help'
+                              : create
+                                ? 'product-slug-help'
+                                : undefined
+                          }
+                          lang="en"
+                          dir="ltr"
+                          maxLength={150}
+                          pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                          value={draft.slug}
+                          onChange={(e) => setDraft({ ...draft, slug: e.target.value })}
+                        />
+                        {create && (
+                          <small id="product-slug-help">
+                            {ar
+                              ? 'يُنشأ تلقائيًا من الاسم الإنجليزي، ويمكنك تعديله.'
+                              : 'Generated from the English name. You can edit it.'}
+                          </small>
+                        )}
                         <div>
                           <SelectField
+                            {...productField(fieldErrors, 'categoryId')}
                             label={ar ? 'التصنيف' : 'Category'}
                             required
                             value={draft.categoryId}
@@ -164,36 +201,37 @@ function Editor({ initial, create }) {
                         {draft.type === 'simple' ? (
                           <div className="staff-field-pair">
                             <MoneyField
+                              {...productField(fieldErrors, 'price')}
                               label={ar ? 'السعر (جنيه مصري)' : 'Price (EGP)'}
                               required
                               value={draft.price}
                               onChange={(price) => setDraft({ ...draft, price })}
                             />
                             <MoneyField
+                              {...productField(fieldErrors, 'discountedPrice')}
                               label={ar ? 'السعر بعد الخصم (جنيه مصري)' : 'Discounted price (EGP)'}
                               value={draft.discountedPrice}
                               onChange={(discountedPrice) =>
                                 setDraft({ ...draft, discountedPrice })
                               }
                             />
-                            <label className="field">
-                              <span>SKU</span>
-                              <input
-                                value={draft.sku ?? ''}
-                                onChange={(e) => setDraft({ ...draft, sku: e.target.value })}
-                              />
-                            </label>
-                            <label className="field">
-                              <span>{ar ? 'المخزون' : 'Stock'}</span>
-                              <input
-                                type="number"
-                                min="0"
-                                step="1"
-                                required
-                                value={draft.stock}
-                                onChange={(e) => setDraft({ ...draft, stock: e.target.value })}
-                              />
-                            </label>
+                            <Field
+                              label="SKU"
+                              {...productField(fieldErrors, 'sku')}
+                              maxLength={100}
+                              value={draft.sku ?? ''}
+                              onChange={(e) => setDraft({ ...draft, sku: e.target.value })}
+                            />
+                            <Field
+                              label={ar ? 'المخزون' : 'Stock'}
+                              {...productField(fieldErrors, 'stock')}
+                              type="number"
+                              min="0"
+                              step="1"
+                              required
+                              value={draft.stock}
+                              onChange={(e) => setDraft({ ...draft, stock: e.target.value })}
+                            />
                           </div>
                         ) : null}
                       </section>
@@ -207,7 +245,12 @@ function Editor({ initial, create }) {
                         content: (
                           <section className="panel staff-panel product-variants-panel">
                             <h2>{ar ? 'التركيبات والمخزون' : 'Variants & stock'}</h2>
-                            <VariantEditor draft={draft} setDraft={setDraft} ar={ar} />
+                            <VariantEditor
+                              draft={draft}
+                              setDraft={setDraft}
+                              ar={ar}
+                              errors={fieldErrors}
+                            />
                           </section>
                         ),
                       },
@@ -315,16 +358,13 @@ function ProductTypeField({ draft, setDraft, create, ar }) {
   )
 }
 
-function VariantEditor({ draft, setDraft, ar }) {
+function VariantEditor({ draft, setDraft, ar, errors }) {
   const { language } = useDashboard()
   const [definitionsOpen, setDefinitionsOpen] = useState(draft.options.length === 0)
   const addOption = () =>
     setDraft({
       ...draft,
-      options: [
-        ...draft.options,
-        { key: '', name: { en: '', ar: '' }, values: [{ key: '', name: { en: '', ar: '' } }] },
-      ],
+      options: [...draft.options, newProductOption()],
     })
   const addVariant = () =>
     setDraft({
@@ -348,6 +388,7 @@ function VariantEditor({ draft, setDraft, ar }) {
     <div className="product-variant-list">
       <details
         className="staff-options-editor"
+        data-invalid={!!errors.options || undefined}
         open={definitionsOpen}
         onToggle={(event) => setDefinitionsOpen(event.currentTarget.open)}
       >
@@ -366,52 +407,30 @@ function VariantEditor({ draft, setDraft, ar }) {
           <Icon name="chevron" />
         </summary>
         <div className="product-options-content">
+          <ProductFieldError errors={errors} path="options" />
           <Button disabled={draft.options.length >= 5} onClick={addOption}>
             {ar ? 'إضافة خيار' : 'Add option'}
           </Button>
           {draft.options.map((option, i) => (
             <div className="panel staff-panel" key={i}>
-              <label className="field">
-                <span>Option key</span>
-                <input
-                  value={option.key}
-                  onChange={(e) => {
-                    const options = structuredClone(draft.options)
-                    options[i] = { ...option, key: e.target.value }
-                    setDraft({ ...draft, options })
-                  }}
-                />
-              </label>
               <BilingualFields
+                name={`options.${i}.name`}
+                errors={errors}
+                required
                 label={ar ? 'اسم الخيار' : 'Option name'}
                 value={option.name}
-                onChange={(name) => {
-                  const options = structuredClone(draft.options)
-                  options[i] = { ...option, name }
-                  setDraft({ ...draft, options })
-                }}
+                onChange={(name) => setDraft(updateOptionName(draft, i, name))}
               />
+              <ProductFieldError errors={errors} path={`options.${i}.values`} />
               {option.values.map((value, j) => (
                 <div className="staff-field-pair" key={j}>
-                  <label className="field">
-                    <span>{ar ? 'مفتاح القيمة' : 'Value key'}</span>
-                    <input
-                      value={value.key}
-                      onChange={(e) => {
-                        const options = structuredClone(draft.options)
-                        options[i].values[j] = { ...value, key: e.target.value }
-                        setDraft({ ...draft, options })
-                      }}
-                    />
-                  </label>
                   <BilingualFields
+                    name={`options.${i}.values.${j}.name`}
+                    errors={errors}
+                    required
                     label={ar ? 'اسم القيمة' : 'Value name'}
                     value={value.name}
-                    onChange={(name) => {
-                      const options = structuredClone(draft.options)
-                      options[i].values[j] = { ...value, name }
-                      setDraft({ ...draft, options })
-                    }}
+                    onChange={(name) => setDraft(updateOptionValueName(draft, i, j, name))}
                   />
                   <Button
                     variant="secondary"
@@ -431,7 +450,7 @@ function VariantEditor({ draft, setDraft, ar }) {
                 disabled={option.values.length >= 50}
                 onClick={() => {
                   const options = structuredClone(draft.options)
-                  options[i].values.push({ key: '', name: { en: '', ar: '' } })
+                  options[i].values.push(newProductOptionValue())
                   setDraft({ ...draft, options })
                 }}
               >
@@ -441,7 +460,15 @@ function VariantEditor({ draft, setDraft, ar }) {
                 variant="secondary"
                 disabled={draft.options.length === 1}
                 onClick={() =>
-                  setDraft({ ...draft, options: draft.options.filter((_, index) => index !== i) })
+                  setDraft({
+                    ...draft,
+                    options: draft.options.filter((_, index) => index !== i),
+                    variants: draft.variants.map((variant) => {
+                      const values = { ...variant.values }
+                      delete values[option.key]
+                      return { ...variant, values }
+                    }),
+                  })
                 }
               >
                 {ar ? 'إزالة الخيار' : 'Remove option'}
@@ -451,9 +478,13 @@ function VariantEditor({ draft, setDraft, ar }) {
         </div>
       </details>
       <h3>{ar ? 'التركيبات القابلة للبيع' : 'Sellable variants'}</h3>
+      <ProductFieldError errors={errors} path="variants" />
       {draft.variants.map((variant, i) => (
         <details
           className="panel staff-panel staff-variant"
+          data-invalid={
+            Object.keys(errors).some((path) => path.startsWith(`variants.${i}.`)) || undefined
+          }
           name="sellable-variants"
           key={variant.id || variant.editorKey || i}
           open={variant.id ? undefined : true}
@@ -472,9 +503,12 @@ function VariantEditor({ draft, setDraft, ar }) {
             </span>
             <Icon name="chevron" />
           </summary>
+          <ProductFieldError errors={errors} path={`variants.${i}.values`} />
           <div className="staff-field-pair">
             {draft.options.map((option) => (
               <SelectField
+                {...productField(errors, `variants.${i}.values.${option.key}`)}
+                required
                 label={option.name?.[language] || option.key}
                 key={option.key}
                 value={variant.values[option.key] || ''}
@@ -496,6 +530,7 @@ function VariantEditor({ draft, setDraft, ar }) {
               </SelectField>
             ))}
             <MoneyField
+              {...productField(errors, `variants.${i}.price`)}
               label={ar ? 'السعر (جنيه مصري)' : 'Price (EGP)'}
               required
               value={variant.price}
@@ -509,6 +544,7 @@ function VariantEditor({ draft, setDraft, ar }) {
               }}
             />
             <MoneyField
+              {...productField(errors, `variants.${i}.discountedPrice`)}
               label={ar ? 'السعر بعد الخصم (جنيه مصري)' : 'Discounted price (EGP)'}
               value={variant.discountedPrice}
               onChange={(discountedPrice) => {
@@ -517,32 +553,31 @@ function VariantEditor({ draft, setDraft, ar }) {
                 setDraft({ ...draft, variants })
               }}
             />
-            <label className="field">
-              <span>SKU</span>
-              <input
-                maxLength={100}
-                value={variant.sku || ''}
-                onChange={(event) => {
-                  const variants = [...draft.variants]
-                  variants[i] = { ...variant, sku: event.target.value }
-                  setDraft({ ...draft, variants })
-                }}
-              />
-            </label>
-            <label className="field">
-              <span>{ar ? 'المخزون' : 'Stock'}</span>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                value={variant.stock}
-                onChange={(e) => {
-                  const variants = [...draft.variants]
-                  variants[i] = { ...variant, stock: e.target.value }
-                  setDraft({ ...draft, variants })
-                }}
-              />
-            </label>
+            <Field
+              label="SKU"
+              {...productField(errors, `variants.${i}.sku`)}
+              maxLength={100}
+              value={variant.sku || ''}
+              onChange={(event) => {
+                const variants = [...draft.variants]
+                variants[i] = { ...variant, sku: event.target.value }
+                setDraft({ ...draft, variants })
+              }}
+            />
+            <Field
+              label={ar ? 'المخزون' : 'Stock'}
+              {...productField(errors, `variants.${i}.stock`)}
+              required
+              type="number"
+              min="0"
+              step="1"
+              value={variant.stock}
+              onChange={(e) => {
+                const variants = [...draft.variants]
+                variants[i] = { ...variant, stock: e.target.value }
+                setDraft({ ...draft, variants })
+              }}
+            />
           </div>
           <div className="product-variant-actions">
             <Button

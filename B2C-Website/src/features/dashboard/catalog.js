@@ -9,6 +9,85 @@ export function updateCatalogName(draft, name, create) {
   return { ...draft, name, ...(generate ? { slug: titleSlug(name.en) } : {}) }
 }
 
+function optionKey(title, fallback, used, option = false) {
+  let base = titleSlug(title).slice(0, 40) || fallback
+  if ((option && !/^[a-z]/.test(base)) || ['constructor', 'prototype', '__proto__'].includes(base))
+    base = `option-${base}`.slice(0, 40)
+  let key = base
+  for (let suffix = 2; used.includes(key); suffix++) {
+    const ending = `-${suffix}`
+    key = `${base.slice(0, 40 - ending.length)}${ending}`
+  }
+  return key
+}
+
+export function updateOptionName(draft, index, name) {
+  const option = draft.options[index],
+    key = option.editorKey
+      ? optionKey(
+          name.en,
+          `option-${option.editorKey}`,
+          draft.options.filter((_, i) => i !== index).map((item) => item.key),
+          true,
+        )
+      : option.key
+  return {
+    ...draft,
+    options: draft.options.map((item, i) => (i === index ? { ...item, key, name } : item)),
+    variants: draft.variants.map((variant) => {
+      if (key === option.key || !Object.hasOwn(variant.values, option.key)) return variant
+      const values = { ...variant.values, [key]: variant.values[option.key] }
+      delete values[option.key]
+      return { ...variant, values }
+    }),
+  }
+}
+
+export function updateOptionValueName(draft, index, valueIndex, name) {
+  const option = draft.options[index],
+    value = option.values[valueIndex],
+    key = value.editorKey
+      ? optionKey(
+          name.en,
+          `value-${value.editorKey}`,
+          option.values.filter((_, i) => i !== valueIndex).map((item) => item.key),
+        )
+      : value.key
+  return {
+    ...draft,
+    options: draft.options.map((item, i) =>
+      i === index
+        ? {
+            ...item,
+            values: item.values.map((choice, j) =>
+              j === valueIndex ? { ...choice, key, name } : choice,
+            ),
+          }
+        : item,
+    ),
+    variants: draft.variants.map((variant) =>
+      variant.values[option.key] === value.key
+        ? { ...variant, values: { ...variant.values, [option.key]: key } }
+        : variant,
+    ),
+  }
+}
+
+export function newProductOptionValue() {
+  const editorKey = crypto.randomUUID().replaceAll('-', '')
+  return { editorKey, key: `value-${editorKey}`, name: { en: '', ar: '' } }
+}
+
+export function newProductOption() {
+  const editorKey = crypto.randomUUID().replaceAll('-', '')
+  return {
+    editorKey,
+    key: `option-${editorKey}`,
+    name: { en: '', ar: '' },
+    values: [newProductOptionValue()],
+  }
+}
+
 export const emptyProduct = (type = 'simple') => ({
   type,
   categoryId: '',
@@ -114,7 +193,11 @@ export function productPayload(draft, initial) {
         throw new Error('Each variant must have a different option combination.')
       combinations.add(combination)
     }
-    payload.options = draft.options
+    payload.options = draft.options.map(({ key, name, values }) => ({
+      key,
+      name,
+      values: values.map(({ key, name }) => ({ key, name })),
+    }))
     payload.variants = draft.variants.map((variant) => {
       const price = Number(variant.price),
         stock = Number(variant.stock)

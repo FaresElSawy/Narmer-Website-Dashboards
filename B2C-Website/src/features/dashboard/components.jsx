@@ -43,8 +43,8 @@ export function StaffError({ error }) {
       ? 'استخدم رابط HTTPS من الخدمة المحددة أو رابط خرائط مدعوم.'
       : 'Use an HTTPS link on the named service or a supported Maps host.',
     VALIDATION_ERROR: ar
-      ? 'تعذر حفظ بعض القيم. راجع الحقول والرسائل التالية.'
-      : 'Some values could not be saved. Review the fields and messages below.',
+      ? 'راجع الحقول الموضحة باللون الأحمر ورسائل التصحيح.'
+      : 'Check the fields marked in red and their correction messages.',
     WHOLESALE_REFERENCED: ar
       ? 'هذا السجل مستخدم في عروض أو طلبات محفوظة ولا يمكن حذفه. يمكنك إلغاء إتاحته بدلًا من حذفه.'
       : 'This record is referenced by offers or saved requests and cannot be deleted. You can disable it instead.',
@@ -73,7 +73,7 @@ export function StaffError({ error }) {
     </>
   )
 }
-export function MoneyField({ label, value, onChange, required = false }) {
+export function MoneyField({ label, value, onChange, required = false, name, id, error }) {
   const display = (amount) => (Number.isSafeInteger(amount) ? (amount / 100).toFixed(2) : '')
   const [text, setText] = useState(() => display(value)),
     previous = useRef(value)
@@ -85,6 +85,11 @@ export function MoneyField({ label, value, onChange, required = false }) {
     <label className="field">
       <span>{label}</span>
       <input
+        name={name}
+        id={id}
+        aria-label={label}
+        aria-invalid={!!error || undefined}
+        aria-describedby={error ? `${id}-error` : undefined}
         type="text"
         inputMode="decimal"
         pattern="[0-9]+([.][0-9]{1,2})?"
@@ -104,6 +109,11 @@ export function MoneyField({ label, value, onChange, required = false }) {
           onChange(amount)
         }}
       />
+      {error && (
+        <span className="field-error" id={`${id}-error`}>
+          {error}
+        </span>
+      )}
     </label>
   )
 }
@@ -204,6 +214,8 @@ export function BilingualFields({
   maxLength = 200,
   multiline = false,
   required = false,
+  name,
+  errors = {},
 }) {
   const ar = useLocale() === 'ar',
     Input = multiline ? 'textarea' : 'input'
@@ -216,6 +228,13 @@ export function BilingualFields({
             {language === 'en' ? (ar ? 'الإنجليزية' : 'English') : ar ? 'العربية' : 'Arabic'}
           </span>
           <Input
+            aria-label={`${label} · ${language === 'en' ? (ar ? 'الإنجليزية' : 'English') : ar ? 'العربية' : 'Arabic'}`}
+            name={name ? `${name}.${language}` : undefined}
+            id={name ? `product-field-${name}.${language}` : undefined}
+            aria-invalid={!!errors[`${name}.${language}`] || undefined}
+            aria-describedby={
+              errors[`${name}.${language}`] ? `product-field-${name}.${language}-error` : undefined
+            }
             lang={language}
             dir={language === 'ar' ? 'rtl' : 'ltr'}
             value={value?.[language] ?? ''}
@@ -224,6 +243,11 @@ export function BilingualFields({
             rows={multiline ? 3 : undefined}
             onChange={(event) => onChange({ ...value, [language]: event.target.value })}
           />
+          {errors[`${name}.${language}`] && (
+            <span className="field-error" id={`product-field-${name}.${language}-error`}>
+              {errors[`${name}.${language}`]}
+            </span>
+          )}
         </label>
       ))}
     </div>

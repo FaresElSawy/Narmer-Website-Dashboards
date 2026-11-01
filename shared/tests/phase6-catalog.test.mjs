@@ -6,9 +6,142 @@ import {
   productPayload,
   sizeChartPayload,
   updateCatalogName,
+  newProductOption,
+  newProductOptionValue,
+  updateOptionName,
+  updateOptionValueName,
   validateMeasurements,
 } from '../../B2C-Website/src/features/dashboard/catalog.js'
 import { createCatalogFixture } from '../../B2C-Website/src/features/dashboard/catalog-fixtures.js'
+import { productFieldErrors } from '../../B2C-Website/src/features/dashboard/product-validation.js'
+
+test('generated option keys follow English names and preserve variant selections through edits', () => {
+  const option = newProductOption(),
+    value = option.values[0]
+  let draft = {
+    ...emptyProduct('variant'),
+    options: [option],
+    variants: [{ values: { [option.key]: value.key }, price: 22200, stock: 1 }],
+  }
+  draft = updateOptionName(draft, 0, { en: 'Color', ar: 'اللون' })
+  draft = updateOptionValueName(draft, 0, 0, { en: 'Red', ar: 'أحمر' })
+  assert.equal(draft.options[0].key, 'color')
+  assert.equal(draft.options[0].values[0].key, 'red')
+  assert.deepEqual(draft.variants[0].values, { color: 'red' })
+  draft = updateOptionName(draft, 0, { en: 'Fabric color', ar: 'لون القماش' })
+  draft = updateOptionValueName(draft, 0, 0, { en: 'Dark Red', ar: 'أحمر داكن' })
+  assert.deepEqual(draft.variants[0].values, { 'fabric-color': 'dark-red' })
+  assert.equal(option.key.startsWith('option-'), true)
+  const body = productPayload(draft, emptyProduct('variant'))
+  assert.equal('editorKey' in body.options[0], false)
+  assert.equal('editorKey' in body.options[0].values[0], false)
+  assert.equal('editorKey' in body.variants[0], false)
+})
+
+test('new keys avoid collisions, reserved names and invalid prefixes without changing saved keys', () => {
+  let draft = { ...emptyProduct('variant'), options: [newProductOption(), newProductOption()] }
+  draft = updateOptionName(draft, 0, { en: 'Color', ar: 'اللون' })
+  draft = updateOptionName(draft, 1, { en: 'Color', ar: 'اللون' })
+  assert.deepEqual(
+    draft.options.map((item) => item.key),
+    ['color', 'color-2'],
+  )
+  draft.options[0].values.push(newProductOptionValue())
+  draft = updateOptionValueName(draft, 0, 0, { en: 'Red', ar: 'أحمر' })
+  draft = updateOptionValueName(draft, 0, 1, { en: 'Red', ar: 'أحمر' })
+  assert.deepEqual(
+    draft.options[0].values.map((item) => item.key),
+    ['red', 'red-2'],
+  )
+  for (const title of ['constructor', '123 size', 'Very long color '.repeat(8), 'لون']) {
+    draft = updateOptionName(draft, 1, { en: title, ar: 'خيار' })
+    assert.match(draft.options[1].key, /^[a-z][a-z0-9_-]{0,39}$/)
+    assert.notEqual(draft.options[1].key, 'constructor')
+  }
+  const saved = {
+    ...emptyProduct('variant'),
+    options: [
+      {
+        key: 'size',
+        name: { en: 'Size', ar: 'المقاس' },
+        values: [{ key: 'xl', name: { en: 'XL', ar: 'XL' } }],
+      },
+    ],
+    variants: [{ id: 'saved', values: { size: 'xl' } }],
+  }
+  const renamed = updateOptionValueName(
+    updateOptionName(saved, 0, { en: 'New size label', ar: 'مقاس' }),
+    0,
+    0,
+    { en: 'Extra large', ar: 'كبير' },
+  )
+  assert.equal(renamed.options[0].key, 'size')
+  assert.equal(renamed.options[0].values[0].key, 'xl')
+  assert.deepEqual(renamed.variants, saved.variants)
+})
+
+test('product validation identifies exact missing fields and handles zero, invalid money and stock', () => {
+  const draft = {
+    ...emptyProduct(),
+    name: { en: 'Shirt', ar: 'قميص' },
+    slug: 'shirt',
+    categoryId: 'c',
+    price: 0,
+    stock: 0,
+  }
+  assert.deepEqual(productFieldErrors(draft), {})
+  const errors = productFieldErrors({
+    ...draft,
+    name: { en: ' ', ar: '' },
+    slug: 'Bad Slug',
+    categoryId: '',
+    price: NaN,
+    stock: '',
+  })
+  for (const path of ['name.en', 'name.ar', 'slug', 'categoryId', 'price', 'stock'])
+    assert.ok(errors[path], path)
+  assert.match(productFieldErrors({ ...draft, discountedPrice: 0 }).discountedPrice, /lower/)
+  assert.ok(productFieldErrors({ ...draft, stock: 1.5 }).stock)
+  assert.match(productFieldErrors(emptyProduct(), 'ar')['name.en'], /مطلوب/)
+})
+
+test('variant validation identifies translations, selection, duplicate, price and stock fields', () => {
+  const draft = {
+    ...emptyProduct('variant'),
+    name: { en: 'Shirt', ar: 'قميص' },
+    slug: 'shirt',
+    categoryId: 'c',
+    options: [
+      {
+        key: 'color',
+        name: { en: 'Color', ar: '' },
+        values: [{ key: 'red', name: { en: 'Red', ar: '' } }],
+      },
+    ],
+    variants: [
+      { values: { color: 'red' }, price: 22200, stock: 1 },
+      { values: { color: 'red' }, price: '', stock: -1 },
+    ],
+  }
+  const errors = productFieldErrors(draft)
+  for (const path of [
+    'options.0.name.ar',
+    'options.0.values.0.name.ar',
+    'variants.0.values',
+    'variants.1.values',
+    'variants.1.price',
+    'variants.1.stock',
+  ])
+    assert.ok(errors[path], path)
+  assert.ok(
+    productFieldErrors({
+      ...draft,
+      variants: [{ ...draft.variants[0], values: { color: 'missing' } }],
+    })['variants.0.values.color'],
+  )
+  assert.ok(productFieldErrors({ ...draft, options: [], variants: [] }).options)
+  assert.ok(productFieldErrors({ ...draft, options: [], variants: [] }).variants)
+})
 
 test('new catalog slugs follow only the English name and respect URL limits', () => {
   let draft = emptyProduct()

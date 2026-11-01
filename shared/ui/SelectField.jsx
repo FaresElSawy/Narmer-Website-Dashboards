@@ -9,6 +9,7 @@ export function SelectField({
   onChange,
   disabled,
   required,
+  error,
   floating = false,
   id: givenId,
   'aria-invalid': fieldInvalid,
@@ -190,8 +191,8 @@ export function SelectField({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-required={required || undefined}
-        aria-invalid={invalid || fieldInvalid || undefined}
-        aria-describedby={invalid ? `${id}-error` : describedBy}
+        aria-invalid={invalid || fieldInvalid || !!error || undefined}
+        aria-describedby={invalid || error ? `${id}-error` : describedBy}
         aria-activedescendant={open ? `${id}-option-${active}` : undefined}
         disabled={disabled}
         onKeyDown={keyDown}
@@ -206,9 +207,9 @@ export function SelectField({
           <path d="m4 6 4 4 4-4" />
         </svg>
       </button>
-      {invalid && (
+      {(invalid || error) && (
         <p className="field-error" id={`${id}-error`}>
-          {ar ? 'اختر أحد الخيارات.' : 'Choose an option.'}
+          {error || (ar ? 'اختر أحد الخيارات.' : 'Choose an option.')}
         </p>
       )}
       {open && (

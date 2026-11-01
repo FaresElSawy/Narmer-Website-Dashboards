@@ -269,6 +269,23 @@
 .product-options-content > .staff-panel {
   margin: 0;
 }
+.product-editor-grid :is(input, textarea, .narmer-select-trigger)[aria-invalid='true'],
+.product-editor-grid .staff-options-editor[data-invalid='true'] {
+  border-color: #a5262c;
+}
+.product-editor-grid .staff-variant[data-invalid='true'] > summary {
+  border-inline-start: 3px solid #a5262c;
+  padding-inline-start: 12px;
+}
+.product-editor-grid .field-error {
+  color: #a5262c;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+}
+.product-options-content .staff-field-pair > .staff-field-pair {
+  grid-column: 1 / -1;
+}
 .product-save-actions > .button {
   width: 100%;
 }

@@ -228,6 +228,11 @@ for (const engine of ['chromium', 'webkit']) {
           })
         assert.equal(await definitions.evaluate((el) => el.open), true)
         assert.equal(await addOption.isVisible(), true)
+        assert.equal(await page.getByLabel('Option key', { exact: true }).count(), 0)
+        assert.equal(
+          await page.getByLabel(text('Value key', 'مفتاح القيمة'), { exact: true }).count(),
+          0,
+        )
         await addOption.click()
         assert.equal(await definitions.evaluate((el) => el.open), true)
         assert.equal(
@@ -238,6 +243,21 @@ for (const engine of ['chromium', 'webkit']) {
         assert.equal(await definitions.evaluate((el) => el.open), false)
         await definitions.locator('summary').press('Enter')
         assert.equal(await addOption.isVisible(), true)
+        await tab('Images', 'الصور')
+        await page
+          .getByRole('button', {
+            name: text('Save and continue to images', 'حفظ ومتابعة لإضافة الصور'),
+            exact: true,
+          })
+          .click()
+        assert.equal(
+          await page
+            .getByLabel(text('Name * · English', 'الاسم * · الإنجليزية'), { exact: true })
+            .getAttribute('aria-invalid'),
+          'true',
+        )
+        assert.equal(await page.evaluate(() => document.activeElement.name), 'name.en')
+        await tab('Variants & stock', 'التركيبات والمخزون')
         await chooseType('simple')
         assert.equal(await page.getByRole('tab').count(), 2)
         assert.equal(

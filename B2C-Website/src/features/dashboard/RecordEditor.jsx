@@ -133,6 +133,8 @@ export function RecordEditor({
   saveInChildren = false,
   saveLabel,
   onBusy,
+  validate,
+  onValidation,
 }) {
   const { request, language } = useDashboard(),
     ar = language === 'ar'
@@ -144,6 +146,35 @@ export function RecordEditor({
   const [latest, setLatest] = useState(null),
     [uncertain, setUncertain] = useState(false),
     [retryAt, setRetryAt] = useState(0)
+  const [attempted, setAttempted] = useState(false)
+  const form = useRef(null)
+  const fieldErrors = validate && attempted ? validate(draft, language) : {}
+  if (validate && error?.code === 'PRODUCT_SLUG_EXISTS')
+    fieldErrors.slug = ar
+      ? 'اسم الرابط مستخدم بالفعل. اختر اسمًا آخر.'
+      : 'This URL name is already in use. Choose another slug.'
+  if (validate && Array.isArray(error?.errors)) {
+    for (const item of error.errors) {
+      const path = item.field?.replace(/^body\./, '').replace(/\[(\d+)\]/g, '.$1')
+      if (path) fieldErrors[path] = item.message
+    }
+  }
+  function revealErrors(errors) {
+    onValidation?.(errors)
+    requestAnimationFrame(() => {
+      const path = Object.keys(errors)[0],
+        field = [...(form.current?.querySelectorAll('[name], [data-field]') || [])].find(
+          (node) => node.getAttribute('name') === path || node.dataset.field === path,
+        )
+      if (!field) return
+      for (let node = field.parentElement; node && node !== form.current; node = node.parentElement)
+        if (node.tagName === 'DETAILS') node.open = true
+      const target =
+        field.tagName === 'SELECT' ? field.parentElement.querySelector('[role="combobox"]') : field
+      target?.focus()
+      target?.scrollIntoView({ block: 'center' })
+    })
+  }
   const mounted = useRef(true),
     dirty = JSON.stringify(draft) !== JSON.stringify(baseline)
   const clearLeaveGuard = useUnsavedChanges(dirty)
@@ -156,11 +187,25 @@ export function RecordEditor({
   async function save(event) {
     event.preventDefault()
     if (busy || blocked || saveBlocked || uncertain || Date.now() < retryAt) return
+    setSaved(false)
+    if (validate) {
+      setAttempted(true)
+      const errors = validate(draft, language)
+      if (Object.keys(errors).length) {
+        setError({ code: 'VALIDATION_ERROR' })
+        revealErrors(errors)
+        return
+      }
+    }
     let body
     try {
       body = payload(draft, baseline)
     } catch (error) {
-      setError(error)
+      setError(
+        validate
+          ? { code: 'VALIDATION_ERROR', errors: [{ field: 'Product', message: error.message }] }
+          : error,
+      )
       return
     }
     setBusy(true)
@@ -179,6 +224,16 @@ export function RecordEditor({
     } catch (error) {
       if (!mounted.current) return
       setError(error)
+      if (validate && error.code === 'PRODUCT_SLUG_EXISTS') revealErrors({ slug: error.message })
+      if (validate && error.errors?.length)
+        revealErrors(
+          Object.fromEntries(
+            error.errors.map((item) => [
+              item.field?.replace(/^body\./, '').replace(/\[(\d+)\]/g, '.$1'),
+              item.message,
+            ]),
+          ),
+        )
       if (error.status === 429) setRetryAt(Date.now() + (error.retryAfter ?? 30) * 1000)
       const unknown = unknownWrite(error)
       if (unknown && create) {
@@ -237,9 +292,24 @@ export function RecordEditor({
     </Button>
   )
   return (
-    <form className="staff-editor" onSubmit={save}>
+    <form ref={form} className="staff-editor" onSubmit={save} noValidate={!!validate}>
       <fieldset disabled={busy || blocked}>
-        {children({ draft, setDraft, baseline, busy, saveButton, dirty })}
+        {children({
+          draft,
+          setDraft: (next) => {
+            setDraft(next)
+            if (
+              validate &&
+              (error?.code === 'VALIDATION_ERROR' || error?.code === 'PRODUCT_SLUG_EXISTS')
+            )
+              setError(null)
+          },
+          baseline,
+          busy,
+          saveButton,
+          dirty,
+          fieldErrors,
+        })}
       </fieldset>
       <StaffError error={error} />
       {saved && <Feedback kind="success" title={ar ? 'تم الحفظ' : 'Changes saved'} />}
