@@ -289,23 +289,9 @@
   align-items: center;
 }
 .staff-contact-phone .staff-whatsapp {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
   min-height: 44px;
   padding: 10px 18px;
-  background: #eaf6ee;
-  border-color: #b5d6c0;
-  color: #17613c;
-  font-size: 14px;
-  font-weight: 600;
-  text-underline-offset: 4px;
-}
-@media (hover: hover) and (pointer: fine) {
-  .staff-contact-phone .staff-whatsapp:hover {
-    background: #dcefe3;
-  }
 }
 @media (max-width: 639px) {
   .staff-details > div:has(.staff-contact-phone) {

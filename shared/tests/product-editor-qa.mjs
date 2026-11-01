@@ -84,7 +84,34 @@ for (const engine of ['chromium', 'webkit']) {
             .boundingBox()
         assert.ok(remove.y - fields.y - fields.height >= 15)
         const price = second.getByLabel(text('Price (EGP)', 'السعر (جنيه مصري)'), { exact: true })
+        const discount = second.getByLabel(
+          text('Discounted price (EGP)', 'السعر بعد الخصم (جنيه مصري)'),
+          { exact: true },
+        )
+        const fieldBoxes = async () => ({
+          price: await price.boundingBox(),
+          discount: await discount.boundingBox(),
+        })
+        const beforeError = await fieldBoxes()
+        await price.fill('')
+        await page
+          .getByRole('button', { name: text('Save changes', 'حفظ التغييرات'), exact: true })
+          .click()
+        assert.equal(await price.getAttribute('aria-invalid'), 'true')
+        const withError = await fieldBoxes()
+        for (const field of ['price', 'discount']) {
+          assert.ok(Math.abs(withError[field].height - beforeError[field].height) < 1)
+        }
+        assert.ok(
+          Math.abs(
+            withError.price.y -
+              withError.discount.y -
+              (beforeError.price.y - beforeError.discount.y),
+          ) < 1,
+          'validation must not change the input alignment',
+        )
         await price.fill('751.25')
+        assert.notEqual(await price.getAttribute('aria-invalid'), 'true')
         await tab('Product details', 'تفاصيل المنتج')
         assert.equal(await name.inputValue(), `${originalName} QA`)
         await name.fill('')

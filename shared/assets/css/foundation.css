@@ -258,6 +258,7 @@ input[type='checkbox']:disabled {
 }
 .field {
   display: grid;
+  align-content: start;
   gap: 8px;
   margin-block: 20px;
 }
