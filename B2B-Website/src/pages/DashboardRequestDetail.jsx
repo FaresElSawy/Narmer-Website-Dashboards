@@ -5,6 +5,7 @@ import { localText, compositionRows, isId } from '../features/inquiry/model.js'
 import { useDashboard } from '../features/dashboard/DashboardContext.jsx'
 import { useStaffRead } from '../features/dashboard/hooks.js'
 import { whatsappContactUrl } from '../features/dashboard/model.js'
+import whatsappIcon from '../assets/images/whatsapp-navy.svg'
 import {
   StaffHeading,
   StaffTable,
@@ -121,7 +122,7 @@ export function DashboardRequestDetail() {
                           <span>{value ?? '-'}</span>
                           {key === 'phone' && whatsappUrl && (
                             <a
-                              className="button button--primary staff-whatsapp"
+                              className="staff-row-icon staff-whatsapp"
                               href={whatsappUrl}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -133,7 +134,7 @@ export function DashboardRequestDetail() {
                                   : `Contact ${lead.contact.name} on WhatsApp`
                               }
                             >
-                              {ar ? 'واتساب' : 'WhatsApp'}
+                              <img src={whatsappIcon} width="20" height="20" alt="" />
                             </a>
                           )}
                         </dd>
