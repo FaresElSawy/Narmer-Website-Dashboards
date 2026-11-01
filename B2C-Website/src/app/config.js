@@ -1,7 +1,7 @@
 import { readConfig } from '../../../shared/lib/config.js'
 import menMenuImage from '../assets/images/menu-men-maison.webp'
 import womenMenuImage from '../assets/images/menu-women-pink.webp'
-import kidsMenuImage from '../assets/images/kids-collection.png'
+import kidsMenuImage from '../assets/images/products/yourself-hoodie-white-04.webp'
 export const config = readConfig(import.meta.env, 'b2c')
 export const navigation = (language, categories = []) => [
   { key: 'home', label: language === 'ar' ? 'الرئيسية' : 'Home', path: '' },
