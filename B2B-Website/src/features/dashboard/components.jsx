@@ -4,11 +4,13 @@ import { Button, Feedback } from '../../../../shared/ui/Primitives.jsx'
 import { errorMessage } from '../../../../shared/lib/messages.js'
 import { useLocale } from '../../../../shared/ui/Locale.jsx'
 
-export function StaffHeading({ title, description, action }) {
+export function StaffHeading({ title, description, action, headingRef }) {
   return (
     <header className="workspace-title">
       <div>
-        <h1>{title}</h1>
+        <h1 ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
+          {title}
+        </h1>
         {description && <p>{description}</p>}
       </div>
       {action}

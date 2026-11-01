@@ -184,6 +184,47 @@ for (const engine of ['chromium', 'webkit']) {
           await go('/dashboard/wholesale')
           await page.locator('.staff-filters').waitFor()
           await fits()
+          await page
+            .getByRole('link', { name: ar ? 'إضافة عرض' : 'Add offer', exact: true })
+            .click()
+          await page
+            .getByRole('heading', {
+              name: ar ? 'إضافة عرض جملة' : 'Add wholesale offer',
+              exact: true,
+            })
+            .waitFor()
+          assert.equal(await page.locator('.staff-filters, .staff-table').count(), 0)
+          assert.ok(
+            await page
+              .locator('.staff-editor .field')
+              .first()
+              .evaluate((node) => node.getBoundingClientRect().top < innerHeight),
+          )
+          await fits()
+          await page
+            .getByRole('link', {
+              name: ar ? 'العودة إلى عروض الجملة' : 'Back to wholesale offers',
+              exact: true,
+            })
+            .click()
+          await page
+            .getByRole('link', { name: ar ? 'تعديل العرض' : 'Edit offer', exact: true })
+            .first()
+            .click()
+          await page
+            .getByRole('heading', {
+              name: ar ? 'تعديل عرض الجملة' : 'Edit wholesale offer',
+              exact: true,
+            })
+            .waitFor()
+          assert.equal(await page.locator('.staff-filters, .staff-table').count(), 0)
+          assert.ok(
+            await page
+              .locator('.staff-editor .field')
+              .first()
+              .evaluate((node) => node.getBoundingClientRect().top < innerHeight),
+          )
+          await fits()
           assert.deepEqual(errors, [], id)
           results.push({ id, passed: true })
         } catch (error) {

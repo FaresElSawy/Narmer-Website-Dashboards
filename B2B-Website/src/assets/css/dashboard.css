@@ -2,6 +2,9 @@
   display: grid;
   gap: 16px;
 }
+.workspace-title h1[tabindex='-1']:focus {
+  outline: none;
+}
 .staff-panel:has(.narmer-select[data-open='true']) {
   position: relative;
   z-index: 61;
@@ -276,6 +279,36 @@
   overflow-wrap: anywhere;
   text-align: start;
 }
+.staff-contact-phone {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.staff-details > div:has(.staff-contact-phone) {
+  align-items: center;
+}
+.staff-contact-phone .staff-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+  color: #17613c;
+}
+@media (hover: hover) and (pointer: fine) {
+  .staff-contact-phone .staff-whatsapp:hover {
+    background: #f0f7f3;
+  }
+}
+@media (max-width: 639px) {
+  .staff-details > div:has(.staff-contact-phone) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+}
 .staff-reference {
   overflow-wrap: anywhere;
   font-size: 12px;
@@ -447,8 +480,9 @@
 .staff-composition-row .field {
   margin: 0;
 }
-.staff-offer-editor {
-  margin-block-start: 32px;
+.staff-offer-composition .staff-composition-row {
+  padding: 0;
+  background: transparent;
 }
 .staff-settings-save {
   display: flex;

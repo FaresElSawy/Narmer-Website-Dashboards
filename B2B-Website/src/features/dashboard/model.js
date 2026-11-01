@@ -1,6 +1,15 @@
 import { ApiError } from '../../../../shared/lib/api.js'
 
 export const fieldTypes = ['text', 'textarea', 'number', 'select', 'multiselect', 'boolean']
+export function whatsappContactUrl(phone) {
+  let number = String(phone ?? '')
+    .trim()
+    .replace(/[\s()-]/g, '')
+  if (/^01[0125]\d{8}$/.test(number)) number = `20${number.slice(1)}`
+  else if (number.startsWith('00')) number = number.slice(2)
+  else if (number.startsWith('+')) number = number.slice(1)
+  return /^[1-9]\d{5,14}$/.test(number) ? `https://wa.me/${number}` : null
+}
 export function staffLabel(value, language) {
   const labels = {
     user: ['Customer', 'عميل'],

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router'
 import { Button, Field, Feedback } from '../../../shared/ui/Primitives.jsx'
 import { useDashboard } from '../features/dashboard/DashboardContext.jsx'
@@ -95,7 +95,7 @@ function SourceSelector({ draft, setDraft }) {
     </>
   )
 }
-function OfferEditor({ initial, create, onSaved }) {
+function OfferEditor({ initial, create }) {
   const { language } = useDashboard(),
     ar = language === 'ar',
     navigate = useNavigate()
@@ -105,9 +105,7 @@ function OfferEditor({ initial, create, onSaved }) {
       path={`/wholesale/offers${create ? '' : `/${initial.id}`}`}
       create={create}
       payload={offerPayload}
-      onUncertain={onSaved}
       onSaved={(result) => {
-        onSaved?.()
         if (create) navigate(`/${language}/dashboard/wholesale/${result.id}`, { replace: true })
       }}
     >
@@ -154,7 +152,7 @@ function OfferEditor({ initial, create, onSaved }) {
                 onChange={(description) => setDraft({ ...draft, description })}
               />
             </section>
-            <section className="staff-panel">
+            <section className="panel staff-panel staff-offer-composition">
               <h2>{ar ? 'تكوين العبوة الثابت' : 'Fixed pouch composition'}</h2>
               {!product && (
                 <Feedback
@@ -295,26 +293,29 @@ function OfferEditor({ initial, create, onSaved }) {
                 {ar ? 'قطعة في العبوة' : 'pieces per pouch'}
               </h3>
             </section>
-            <SelectField
-              label={ar ? 'حالة النشر' : 'Publication state'}
-              value={String(draft.isActive)}
-              onChange={(event) => setDraft({ ...draft, isActive: event.target.value === 'true' })}
-            >
-              <option value="false">{ar ? 'غير منشور' : 'Unpublished'}</option>
-              <option value="true" disabled={!product}>
-                {ar ? 'منشور' : 'Published'}
-              </option>
-            </SelectField>
-            <p className="staff-help">
-              {ar
-                ? 'العرض الجديد غير منشور افتراضيًا. الصور تأتي من المنتج المصدر. لا توجد أسعار أو صور مستقلة للعرض.'
-                : 'New offers start unpublished. Images come from the source product. Offers have no independent gallery or pricing.'}
-            </p>
+            <section className="panel staff-panel">
+              <SelectField
+                label={ar ? 'حالة النشر' : 'Publication state'}
+                value={String(draft.isActive)}
+                onChange={(event) =>
+                  setDraft({ ...draft, isActive: event.target.value === 'true' })
+                }
+              >
+                <option value="false">{ar ? 'غير منشور' : 'Unpublished'}</option>
+                <option value="true" disabled={!product}>
+                  {ar ? 'منشور' : 'Published'}
+                </option>
+              </SelectField>
+              <p className="staff-help">
+                {ar
+                  ? 'العرض الجديد غير منشور افتراضيًا. الصور تأتي من المنتج المصدر. لا توجد أسعار أو صور مستقلة للعرض.'
+                  : 'New offers start unpublished. Images come from the source product. Offers have no independent gallery or pricing.'}
+              </p>
+            </section>
             {!create && (
               <DeleteRecord
                 path={`/wholesale/offers/${draft.id}`}
                 back="wholesale"
-                onDeleted={onSaved}
                 label={ar ? 'العرض' : 'offer'}
               />
             )}
@@ -324,18 +325,17 @@ function OfferEditor({ initial, create, onSaved }) {
     </RecordEditor>
   )
 }
-function ExistingOffer({ offerId, onSaved }) {
+function ExistingOffer({ offerId }) {
   const read = useStaffRead(`/wholesale/offers/${offerId}`)
   return (
     <ReadState read={read}>
-      {read.data && <OfferEditor key={offerId} initial={read.data} onSaved={onSaved} />}
+      {read.data && <OfferEditor key={offerId} initial={read.data} />}
     </ReadState>
   )
 }
-export function DashboardWholesale() {
+function WholesaleOffersList() {
   const { language } = useDashboard(),
     ar = language === 'ar',
-    { offerId } = useParams(),
     [search, setSearch] = useSearchParams()
   const active = ['true', 'false'].includes(search.get('isActive')) ? search.get('isActive') : '',
     q = (search.get('q') || '').slice(0, 100)
@@ -445,27 +445,57 @@ export function DashboardWholesale() {
           </>
         )}
       </ReadState>
-      {offerId && (
-        <div className="staff-offer-editor" key={offerId}>
-          {offerId === 'new' ? (
-            <OfferEditor
-              create
-              onSaved={read.reload}
-              initial={{
-                name: { en: '', ar: '' },
-                description: { en: '', ar: '' },
-                sourceStore: 'b2b',
-                productId: '',
-                product: null,
-                composition: [],
-                isActive: false,
-              }}
-            />
-          ) : (
-            <ExistingOffer offerId={offerId} onSaved={read.reload} />
-          )}
-        </div>
+    </>
+  )
+}
+
+function WholesaleOfferPage({ offerId }) {
+  const { language } = useDashboard(),
+    ar = language === 'ar',
+    create = offerId === 'new',
+    heading = useRef(null)
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true })
+    window.scrollTo(0, 0)
+  }, [])
+  return (
+    <>
+      <StaffLink section="wholesale">
+        {ar ? 'العودة إلى عروض الجملة' : 'Back to wholesale offers'}
+      </StaffLink>
+      <StaffHeading
+        headingRef={heading}
+        title={
+          create
+            ? ar
+              ? 'إضافة عرض جملة'
+              : 'Add wholesale offer'
+            : ar
+              ? 'تعديل عرض الجملة'
+              : 'Edit wholesale offer'
+        }
+      />
+      {create ? (
+        <OfferEditor
+          create
+          initial={{
+            name: { en: '', ar: '' },
+            description: { en: '', ar: '' },
+            sourceStore: 'b2b',
+            productId: '',
+            product: null,
+            composition: [],
+            isActive: false,
+          }}
+        />
+      ) : (
+        <ExistingOffer offerId={offerId} />
       )}
     </>
   )
+}
+
+export function DashboardWholesale() {
+  const { offerId } = useParams()
+  return offerId ? <WholesaleOfferPage key={offerId} offerId={offerId} /> : <WholesaleOffersList />
 }
