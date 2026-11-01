@@ -45,6 +45,6 @@ The owner subsequently requested Narmer's colors instead of green. The final Wha
 
 The owner's latest reference replaces the text button with the supplied `D:/Downloads/whatsapp-svgrepo-com (1).svg`. Its path is preserved exactly in `whatsapp-navy.svg`; the original `#102a33` fill is changed to Narmer navy `#073b50`. Unused export wrappers and the external DTD are omitted.
 
-The request shortcut now reuses the shared `staff-row-icon` style, with the same pale 32 px rounded background as the reference edit action, a 20 px icon and a 44 px click area. Hover, focus, customer-specific accessible label, tooltip, 12 px phone spacing and the original `wa.me` recipient are preserved. No other dashboard buttons changed.
+The request shortcut now reuses the shared `staff-row-icon` style, with the same pale 32 px rounded background as the reference edit action, a 25 px icon (the owner's final size adjustment) and a 44 px click area. Hover, focus, customer-specific accessible label, tooltip, 12 px phone spacing and the original `wa.me` recipient are preserved. No other dashboard buttons changed.
 
 Local visual checks confirmed the supplied image loads, the background/radius match the action style, and the requester URL is unchanged. Both WhatsApp URL tests, B2B lint/format checks and the staging build passed; all 28 public English/Arabic page checks passed. No WhatsApp message was sent.

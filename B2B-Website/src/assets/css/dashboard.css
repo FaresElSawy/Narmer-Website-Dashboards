@@ -291,10 +291,13 @@
 .staff-whatsapp::before {
   background: var(--color-pale);
 }
+.dashboard a.staff-whatsapp {
+  padding: 9px;
+}
 .staff-whatsapp > img {
   position: relative;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   flex-shrink: 0;
 }
 @media (max-width: 639px) {

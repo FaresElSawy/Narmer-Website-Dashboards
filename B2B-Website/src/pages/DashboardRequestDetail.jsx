@@ -134,7 +134,7 @@ export function DashboardRequestDetail() {
                                   : `Contact ${lead.contact.name} on WhatsApp`
                               }
                             >
-                              <img src={whatsappIcon} width="20" height="20" alt="" />
+                              <img src={whatsappIcon} width="25" height="25" alt="" />
                             </a>
                           )}
                         </dd>
