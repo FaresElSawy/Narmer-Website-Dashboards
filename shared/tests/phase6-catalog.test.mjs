@@ -10,13 +10,15 @@ import {
   newProductOptionValue,
   updateOptionName,
   updateOptionValueName,
+  productOptionType,
+  changeProductOptionType,
   validateMeasurements,
 } from '../../B2C-Website/src/features/dashboard/catalog.js'
 import { createCatalogFixture } from '../../B2C-Website/src/features/dashboard/catalog-fixtures.js'
 import { productFieldErrors } from '../../B2C-Website/src/features/dashboard/product-validation.js'
 
-test('generated option keys follow English names and preserve variant selections through edits', () => {
-  const option = newProductOption(),
+test('semantic option keys stay canonical while value names update unsaved selections', () => {
+  const option = newProductOption('color'),
     value = option.values[0]
   let draft = {
     ...emptyProduct('variant'),
@@ -30,8 +32,8 @@ test('generated option keys follow English names and preserve variant selections
   assert.deepEqual(draft.variants[0].values, { color: 'red' })
   draft = updateOptionName(draft, 0, { en: 'Fabric color', ar: 'لون القماش' })
   draft = updateOptionValueName(draft, 0, 0, { en: 'Dark Red', ar: 'أحمر داكن' })
-  assert.deepEqual(draft.variants[0].values, { 'fabric-color': 'dark-red' })
-  assert.equal(option.key.startsWith('option-'), true)
+  assert.deepEqual(draft.variants[0].values, { color: 'dark-red' })
+  assert.equal(option.key, 'color')
   const body = productPayload(draft, emptyProduct('variant'))
   assert.equal('editorKey' in body.options[0], false)
   assert.equal('editorKey' in body.options[0].values[0], false)
@@ -40,11 +42,11 @@ test('generated option keys follow English names and preserve variant selections
 
 test('new keys avoid collisions, reserved names and invalid prefixes without changing saved keys', () => {
   let draft = { ...emptyProduct('variant'), options: [newProductOption(), newProductOption()] }
-  draft = updateOptionName(draft, 0, { en: 'Color', ar: 'اللون' })
-  draft = updateOptionName(draft, 1, { en: 'Color', ar: 'اللون' })
+  draft = updateOptionName(draft, 0, { en: 'Fabric', ar: 'القماش' })
+  draft = updateOptionName(draft, 1, { en: 'Fabric', ar: 'القماش' })
   assert.deepEqual(
     draft.options.map((item) => item.key),
-    ['color', 'color-2'],
+    ['fabric', 'fabric-2'],
   )
   draft.options[0].values.push(newProductOptionValue())
   draft = updateOptionValueName(draft, 0, 0, { en: 'Red', ar: 'أحمر' })
@@ -78,6 +80,52 @@ test('new keys avoid collisions, reserved names and invalid prefixes without cha
   assert.equal(renamed.options[0].key, 'size')
   assert.equal(renamed.options[0].values[0].key, 'xl')
   assert.deepEqual(renamed.variants, saved.variants)
+})
+
+test('explicit option typing repairs a legacy color without changing values, IDs or galleries', () => {
+  const draft = {
+    ...emptyProduct('variant'),
+    id: 'product',
+    options: [
+      {
+        key: 'fares',
+        name: { en: 'Color', ar: 'اللون' },
+        values: [{ key: 'fares', name: { en: 'Gold', ar: 'ذهبى' } }],
+      },
+    ],
+    variants: [
+      {
+        id: 'retained-variant',
+        values: { fares: 'fares' },
+        price: 50000,
+        stock: 2,
+        images: [{ id: 'retained-photo' }],
+      },
+    ],
+  }
+  assert.equal(productOptionType(draft.options[0]), 'other')
+  const repaired = changeProductOptionType(draft, 0, 'color')
+  assert.equal(productOptionType(repaired.options[0]), 'color')
+  assert.deepEqual(repaired.options[0].values, draft.options[0].values)
+  assert.deepEqual(repaired.variants[0], { ...draft.variants[0], values: { color: 'fares' } })
+  assert.deepEqual(draft.variants[0].values, { fares: 'fares' })
+  const renamed = updateOptionName(repaired, 0, { en: 'Fabric colors', ar: 'ألوان القماش' })
+  assert.equal(renamed.options[0].key, 'color')
+  const other = changeProductOptionType(repaired, 0, 'other')
+  assert.notEqual(other.options[0].key, 'color')
+  assert.equal(other.variants[0].values[other.options[0].key], 'fares')
+  const two = { ...repaired, options: [...repaired.options, newProductOption('size')] }
+  assert.throws(() => changeProductOptionType(two, 1, 'color'), /already configured/)
+  assert.throws(() => changeProductOptionType(two, 1, 'constructor'), /Choose/)
+  assert.equal(productOptionType({ key: 'constructor' }), 'other')
+})
+
+test('custom labels cannot silently claim the canonical Color or Size key', () => {
+  const draft = { ...emptyProduct('variant'), options: [newProductOption()] }
+  const named = updateOptionName(draft, 0, { en: 'Color', ar: 'لون مخصص' })
+  assert.notEqual(named.options[0].key, 'color')
+  assert.equal(productOptionType(named.options[0]), 'other')
+  assert.deepEqual(newProductOption('size').name, { en: 'Size', ar: 'المقاس' })
 })
 
 test('product validation identifies exact missing fields and handles zero, invalid money and stock', () => {

@@ -4,6 +4,8 @@ The owner approved generating option/value identifiers internally after an upper
 
 ## Result
 
+Follow-up: [COLOR_OPTION_COMPATIBILITY.md](COLOR_OPTION_COMPATIBILITY.md) records the explicit Color/Size option types. Their canonical keys now stay fixed while display labels change; only Other options derive new keys from their English names.
+
 - The B2C product editor no longer asks staff to enter option or value machine keys. Staff enter the English/Arabic names.
 - New option/value identifiers derive from the English name using the existing slugify dependency. Generated identifiers satisfy the backend's lowercase/length rules, avoid reserved keys and receive suffixes for collisions.
 - Temporary identifiers allow adding variants before names are complete. Renaming an unsaved option/value updates affected variant selections without losing the selection, price, stock, images or identity.

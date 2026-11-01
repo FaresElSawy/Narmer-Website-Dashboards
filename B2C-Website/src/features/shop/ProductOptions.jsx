@@ -1,22 +1,6 @@
 import { useLocale } from '../../../../shared/ui/Locale.jsx'
 import { optionVariant } from './catalog.js'
-
-// shortcut: color names have no API swatch values; use a neutral fallback for unknown names.
-const swatches = {
-  beige: '#b8ac94',
-  brown: '#604536',
-  black: '#232323',
-  white: '#fff',
-  navy: '#173345',
-  blue: '#6387aa',
-  green: '#28564b',
-  olive: '#394d3d',
-  ivory: '#eee8dc',
-  pink: '#d03f79',
-  red: '#a83232',
-  grey: '#929292',
-  gray: '#929292',
-}
+import { colorSwatch } from './colors.js'
 
 export function ProductOptions({ product, values, onChange, disabled = false }) {
   const ar = useLocale() === 'ar'
@@ -63,7 +47,7 @@ export function ProductOptions({ product, values, onChange, disabled = false }) 
                 <span
                   className="color-swatch"
                   aria-hidden="true"
-                  style={{ '--swatch': swatches[value.key.toLowerCase()] || '#d1d4d3' }}
+                  style={{ '--swatch': colorSwatch(value) }}
                 />
               )}
               {value.name}

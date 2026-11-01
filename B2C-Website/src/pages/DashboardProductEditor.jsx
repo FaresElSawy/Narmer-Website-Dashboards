@@ -24,6 +24,8 @@ import {
   newProductOptionValue,
   updateOptionName,
   updateOptionValueName,
+  productOptionType,
+  changeProductOptionType,
 } from '../features/dashboard/catalog.js'
 import { productFieldErrors } from '../features/dashboard/product-validation.js'
 
@@ -364,7 +366,16 @@ function VariantEditor({ draft, setDraft, ar, errors }) {
   const addOption = () =>
     setDraft({
       ...draft,
-      options: [...draft.options, newProductOption()],
+      options: [
+        ...draft.options,
+        newProductOption(
+          !draft.options.some((option) => option.key === 'color')
+            ? 'color'
+            : !draft.options.some((option) => option.key === 'size')
+              ? 'size'
+              : 'other',
+        ),
+      ],
     })
   const addVariant = () =>
     setDraft({
@@ -413,6 +424,34 @@ function VariantEditor({ draft, setDraft, ar, errors }) {
           </Button>
           {draft.options.map((option, i) => (
             <div className="panel staff-panel" key={i}>
+              <SelectField
+                label={ar ? 'نوع الخيار' : 'Option type'}
+                value={productOptionType(option)}
+                onChange={(event) =>
+                  setDraft(changeProductOptionType(draft, i, event.target.value))
+                }
+              >
+                <option
+                  value="color"
+                  disabled={draft.options.some(
+                    (item, index) => index !== i && item.key === 'color',
+                  )}
+                >
+                  {ar ? 'اللون' : 'Color'}
+                </option>
+                <option
+                  value="size"
+                  disabled={draft.options.some((item, index) => index !== i && item.key === 'size')}
+                >
+                  {ar ? 'المقاس' : 'Size'}
+                </option>
+                <option value="other">{ar ? 'خيار آخر' : 'Other option'}</option>
+              </SelectField>
+              <small>
+                {ar
+                  ? 'اختر اللون لعرض دوائر الألوان، أو المقاس لخيارات المقاسات وفلاتر المتجر.'
+                  : 'Choose Color for color swatches, or Size for size choices and store filters.'}
+              </small>
               <BilingualFields
                 name={`options.${i}.name`}
                 errors={errors}

@@ -21,16 +21,16 @@ function optionKey(title, fallback, used, option = false) {
   return key
 }
 
-export function updateOptionName(draft, index, name) {
-  const option = draft.options[index],
-    key = option.editorKey
-      ? optionKey(
-          name.en,
-          `option-${option.editorKey}`,
-          draft.options.filter((_, i) => i !== index).map((item) => item.key),
-          true,
-        )
-      : option.key
+const optionNames = {
+  color: { en: 'Color', ar: 'اللون' },
+  size: { en: 'Size', ar: 'المقاس' },
+}
+
+export const productOptionType = (option) =>
+  Object.hasOwn(optionNames, option.key) ? option.key : 'other'
+
+function replaceOptionKey(draft, index, key, name) {
+  const option = draft.options[index]
   return {
     ...draft,
     options: draft.options.map((item, i) => (i === index ? { ...item, key, name } : item)),
@@ -41,6 +41,52 @@ export function updateOptionName(draft, index, name) {
       return { ...variant, values }
     }),
   }
+}
+
+export function updateOptionName(draft, index, name) {
+  const option = draft.options[index],
+    key =
+      option.editorKey && productOptionType(option) === 'other'
+        ? optionKey(
+            name.en,
+            `option-${option.editorKey}`,
+            [
+              ...draft.options.filter((_, i) => i !== index).map((item) => item.key),
+              'color',
+              'size',
+            ],
+            true,
+          )
+        : option.key
+  return replaceOptionKey(draft, index, key, name)
+}
+
+export function changeProductOptionType(draft, index, type) {
+  if (!['color', 'size', 'other'].includes(type)) throw new Error('Choose Color, Size or Other.')
+  const option = draft.options[index],
+    previous = productOptionType(option)
+  if (previous === type) return draft
+  const used = draft.options.filter((_, i) => i !== index).map((item) => item.key)
+  if (type !== 'other' && used.includes(type))
+    throw new Error('This option type is already configured.')
+  const key =
+    type === 'other'
+      ? optionKey(
+          option.name.en,
+          `option-${crypto.randomUUID().replaceAll('-', '')}`,
+          [...used, 'color', 'size'],
+          true,
+        )
+      : type
+  const name = Object.fromEntries(
+    ['en', 'ar'].map((language) => [
+      language,
+      !option.name[language] || option.name[language] === optionNames[previous]?.[language]
+        ? optionNames[type]?.[language] || option.name[language]
+        : option.name[language],
+    ]),
+  )
+  return replaceOptionKey(draft, index, key, name)
 }
 
 export function updateOptionValueName(draft, index, valueIndex, name) {
@@ -78,12 +124,12 @@ export function newProductOptionValue() {
   return { editorKey, key: `value-${editorKey}`, name: { en: '', ar: '' } }
 }
 
-export function newProductOption() {
+export function newProductOption(type = 'other') {
   const editorKey = crypto.randomUUID().replaceAll('-', '')
   return {
     editorKey,
-    key: `option-${editorKey}`,
-    name: { en: '', ar: '' },
+    key: Object.hasOwn(optionNames, type) ? type : `option-${editorKey}`,
+    name: Object.hasOwn(optionNames, type) ? { ...optionNames[type] } : { en: '', ar: '' },
     values: [newProductOptionValue()],
   }
 }

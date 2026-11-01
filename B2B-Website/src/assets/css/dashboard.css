@@ -293,19 +293,15 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 44px;
   min-height: 44px;
-  border-radius: 8px;
   color: #17613c;
-}
-.staff-contact-phone .staff-whatsapp img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+  font-size: 14px;
+  font-weight: 600;
+  text-underline-offset: 4px;
 }
 @media (hover: hover) and (pointer: fine) {
   .staff-contact-phone .staff-whatsapp:hover {
-    background: #f0f7f3;
+    text-decoration: underline;
   }
 }
 @media (max-width: 639px) {

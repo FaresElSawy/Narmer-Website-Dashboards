@@ -30,3 +30,9 @@ No live offers or requests were created, modified or marked contacted for these 
 ## Owner-supplied icon refinement
 
 The owner replaced the drawn icon with `D:/Downloads/whatsapp.png`. The exact PNG is bundled at `B2B-Website/src/assets/images/whatsapp.png`; its SHA-256 matches the supplied file. Chrome confirmed a 24 × 24 px image inside the existing 44 × 44 px link target, with the same requester-specific URL, accessible label and tooltip. The staging build passed all 28 public-page checks. No message or live request mutation was performed.
+
+## Approved text-only refinement, 1 November 2026
+
+The owner's latest choice replaces the icon with green `WhatsApp` / `واتساب` text beside the phone, without an icon, border or pill background. The link keeps a 44 px minimum height, 12 px horizontal gap, hover underline, existing keyboard focus and requester-specific accessible label. Recipient normalization, separate-tab behavior and request status are unchanged.
+
+The local fixture rendered the English text with no image/SVG, the expected `wa.me` recipient and a 44 px target. Both staging builds passed (38 B2C and 28 B2B public pages). No WhatsApp message was sent.
