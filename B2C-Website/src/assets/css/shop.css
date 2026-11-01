@@ -200,7 +200,7 @@
 }
 .retail-collections {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   margin-block-start: 32px;
 }
@@ -225,6 +225,7 @@
   position: absolute;
   inset: auto 0 0;
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   justify-content: space-between;
   align-items: end;

@@ -1,6 +1,7 @@
 import { readConfig } from '../../../shared/lib/config.js'
 import menMenuImage from '../assets/images/menu-men-maison.webp'
 import womenMenuImage from '../assets/images/menu-women-pink.webp'
+import kidsMenuImage from '../assets/images/kids-collection.png'
 export const config = readConfig(import.meta.env, 'b2c')
 export const navigation = (language, categories = []) => [
   { key: 'home', label: language === 'ar' ? 'الرئيسية' : 'Home', path: '' },
@@ -27,6 +28,17 @@ export const navigation = (language, categories = []) => [
       image: womenMenuImage,
     },
     children: categoryLinks(categories, 'women', language),
+  },
+  {
+    key: 'kids',
+    label: language === 'ar' ? 'أطفال' : 'Kids',
+    path: '/products?collection=kids',
+    dropdown: true,
+    menu: {
+      heading: language === 'ar' ? 'قسم الأطفال' : 'Kids’ Section',
+      image: kidsMenuImage,
+    },
+    children: categoryLinks(categories, 'kids', language),
   },
   {
     key: 'new',

@@ -63,6 +63,7 @@ const customer = (session, id = 'customer-a', role = 'user') =>
 test('retail filters use category IDs, supported wire keys and integer piastres', () => {
   const query = catalogQuery('collection=men&sale=true&search=ignored&page=2', retailCategories())
   assert.equal(query.get('categoryId'), fixtureId(10))
+  assert.equal(catalogQuery('collection=kids', retailCategories()).get('categoryId'), fixtureId(30))
   assert.equal(query.get('saleOnly'), 'true')
   assert.equal(query.has('search'), false)
   assert.equal(priceFilter('100.25'), '10025')

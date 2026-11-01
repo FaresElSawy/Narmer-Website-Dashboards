@@ -104,6 +104,7 @@ export function retailCategories(language = 'en') {
       node(22, 20, 'womens-sweatshirts', 'Sweatshirts', 'سويت شيرت'),
       node(23, 20, 'womens-quarter-zips', 'Quarter-zips', 'نص سحاب'),
     ]),
+    node(30, null, 'kids', 'Kids', 'أطفال'),
   ]
 }
 export function retailHomepage(language, images) {

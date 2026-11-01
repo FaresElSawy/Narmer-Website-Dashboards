@@ -7,6 +7,7 @@ import { homeCopy } from '../content/home.js'
 import { config } from '../app/config.js'
 import men from '../../../shared/assets/images/campaign-men.webp'
 import women from '../assets/images/brown.webp'
+import kids from '../assets/images/kids-collection.png'
 import fabric from '../../../shared/assets/images/fabric.webp'
 import { useShop } from '../features/shop/ShopProvider.jsx'
 import { retailImages } from '../features/shop/images.js'
@@ -113,6 +114,12 @@ export default function Home() {
             {[
               ['men', retailImages.logo.url, ar ? 'قسم الرجال' : 'Men’s Section', copy.men],
               ['women', retailImages.brown.url, ar ? 'قسم النساء' : 'Women’s Section', copy.women],
+              [
+                'kids',
+                kids,
+                ar ? 'قسم الأطفال' : 'Kids’ Section',
+                ar ? 'تسوق للأطفال' : 'Shop Kids',
+              ],
             ].map(([key, fallback, title, label]) => (
               <article key={key}>
                 <HomeImage slot={slot(`collection-${key}`)} fallback={fallback} alt={title} />
