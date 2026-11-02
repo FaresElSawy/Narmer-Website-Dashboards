@@ -205,17 +205,19 @@ function CategoryEditor({ initial, create }) {
                 ))}
               </SelectField>
               {tree.error && <ReadState read={tree} />}
-              <label className="field">
-                <span>{ar ? 'الترتيب' : 'Position'}</span>
-                <input
-                  type="number"
-                  min="0"
-                  max="100000"
-                  step="1"
-                  value={draft.position}
-                  onChange={(e) => setDraft({ ...draft, position: Number(e.target.value) })}
-                />
-              </label>
+              {draft.parentId && (
+                <label className="field">
+                  <span>{ar ? 'الترتيب' : 'Position'}</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100000"
+                    step="1"
+                    value={draft.position}
+                    onChange={(e) => setDraft({ ...draft, position: Number(e.target.value) })}
+                  />
+                </label>
+              )}
               <SelectField
                 label={ar ? 'الإتاحة' : 'Availability'}
                 value={String(draft.isActive)}
