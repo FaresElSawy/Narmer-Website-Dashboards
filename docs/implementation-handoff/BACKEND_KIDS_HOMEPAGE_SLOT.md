@@ -1,8 +1,16 @@
 # B2C Kids homepage image slot
 
+## Backend update received — 2 November 2026
+
+The supplied `HOMEPAGE_FRONTEND.md` now includes `collection-kids` in the seven-slot B2C manifest, including completion of existing records on read, desktop/mobile uploads, partial updates and independent alternative text. The public API was checked on 2 November 2026 and returns the new slot with null image overrides. The frontend support was already deployed in commit `762caf6`; no additional runtime change is required. Refresh Homepage content to load the updated manifest.
+
+A focused frontend fixture test passes for seven-slot serialization, separate Kids desktop/mobile uploads, save and clear, while preserving the other six slots. The live Chrome upload/save check remains unverified because Chrome reports that an extension UI blocks automation. The owner separately confirmed the root-category dropdown image now works. No live homepage images were changed during this verification.
+
+## Original request (fulfilled by the updated contract)
+
 The storefront now has a Kids card in “Find your everyday.” Its separate navigation dropdown image comes from the root category image. The Kids homepage card must be editable independently alongside Men and Women in Homepage content.
 
-The deployed public `GET /api/v1/b2c/homepage` currently returns six slots, without `collection-kids`. `HOMEPAGE_FRONTEND.md` defines a fixed manifest and rejects unknown upload/PATCH slot keys, so the frontend must not invent an unsupported upload.
+At the time of the original request, public `GET /api/v1/b2c/homepage` returned six slots, without `collection-kids`. The previous `HOMEPAGE_FRONTEND.md` defined a fixed manifest and rejected unknown upload/PATCH slot keys, so the frontend could not invent an unsupported upload.
 
 Please add `collection-kids` to the B2C homepage manifest:
 

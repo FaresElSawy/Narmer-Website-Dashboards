@@ -1,11 +1,65 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { createStaffContentFixture } from '../../B2C-Website/src/features/dashboard/staff-fixtures.js'
-import { createAccountPayload } from '../../B2C-Website/src/features/dashboard/staff-model.js'
+import {
+  createAccountPayload,
+  homepagePayload,
+} from '../../B2C-Website/src/features/dashboard/staff-model.js'
 import { unknownWrite } from '../../B2C-Website/src/features/dashboard/model.js'
 import { createdAccount } from '../lib/staff-account.js'
 
 const user = { id: 'review-superAdmin', role: 'superAdmin', store: 'b2c', name: 'Review staff' }
+test('Kids homepage images save independently in the seven-slot editor and can be cleared', async () => {
+  const request = createStaffContentFixture()
+  const initial = await request('/homepage', { user })
+  assert.equal(initial.allowedSlots.length, 7)
+  assert.equal(
+    initial.allowedSlots.find((slot) => slot.key === 'collection-kids').supportsMobileImage,
+    true,
+  )
+  const draft = structuredClone(initial)
+  const kids = draft.slots.find((slot) => slot.key === 'collection-kids')
+  const uploaded = []
+  try {
+    for (const device of ['desktop', 'mobile']) {
+      const image = await request(`/homepage/media/collection-kids/${device}`, {
+        method: 'POST',
+        body: new Blob(['local']),
+        user,
+      })
+      uploaded.push(image)
+      kids[`${device}Image`] = image
+    }
+    kids.alt = { en: 'Kids collection', ar: 'مجموعة الأطفال' }
+    const body = homepagePayload(draft)
+    assert.equal(body.slots.length, 7)
+    const saved = await request('/homepage', { method: 'PATCH', body, user })
+    const savedKids = saved.slots.find((slot) => slot.key === 'collection-kids')
+    assert.deepEqual(savedKids, kids)
+    assert.deepEqual(
+      saved.slots.filter((slot) => slot.key !== 'collection-kids'),
+      initial.slots.filter((slot) => slot.key !== 'collection-kids'),
+    )
+    const cleared = await request('/homepage', {
+      method: 'PATCH',
+      user,
+      body: {
+        version: saved.version,
+        slots: [{ key: 'collection-kids', desktopImageId: null, mobileImageId: null }],
+      },
+    })
+    assert.deepEqual(
+      cleared.slots.find((slot) => slot.key === 'collection-kids'),
+      {
+        ...savedKids,
+        desktopImage: null,
+        mobileImage: null,
+      },
+    )
+  } finally {
+    for (const image of uploaded) URL.revokeObjectURL(image.url)
+  }
+})
 test('staff creation validates UTF8 passwords and never exposes password in DTO', async () => {
   const request = createStaffContentFixture(),
     body = {
