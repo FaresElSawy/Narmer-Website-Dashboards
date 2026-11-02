@@ -225,9 +225,14 @@ function CategoryEditor({ initial, create }) {
                 <option value="true">{ar ? 'متاح' : 'Active'}</option>
               </SelectField>
             </section>
-            {!create && (
+            {!create && !draft.parentId && (
               <section className="panel staff-panel">
                 <h2>{ar ? 'صورة التصنيف' : 'Category image'}</h2>
+                <p className="staff-help">
+                  {ar
+                    ? 'تُعرض في قائمة التصنيف الرئيسية أسفل شريط التنقل.'
+                    : 'Shown in the root category dropdown below the navigation bar.'}
+                </p>
                 {draft.image && (
                   <div className="staff-gallery-editor">
                     <img

@@ -10,6 +10,7 @@ import { SelectField } from '../features/dashboard/components.jsx'
 import men from '../../../shared/assets/images/campaign-men.webp'
 import women from '../assets/images/brown.webp'
 import fabric from '../../../shared/assets/images/fabric.webp'
+import kids from '../assets/images/kids-collection.png'
 import { retailImages } from '../features/shop/images.js'
 
 const defaults = {
@@ -17,6 +18,7 @@ const defaults = {
   'hero-right': women,
   'collection-men': retailImages.logo.url,
   'collection-women': women,
+  'collection-kids': kids,
   'sale-feature': retailImages.pink.url,
   'factory-story': fabric,
 }
@@ -26,6 +28,7 @@ const slotLabels = {
   'hero-right': ['Hero: right image', 'الصورة اليمنى للبنر الرئيسي'],
   'collection-men': ['Men collection', 'مجموعة الرجال'],
   'collection-women': ['Women collection', 'مجموعة النساء'],
+  'collection-kids': ['Kids collection', 'مجموعة الأطفال'],
   'sale-feature': ['Sale feature', 'صورة قسم التخفيضات'],
   'factory-story': ['Factory story', 'صورة قصة المصنع'],
 }

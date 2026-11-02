@@ -14,7 +14,9 @@ export const navigation = (language, categories = []) => [
     dropdown: true,
     menu: {
       heading: language === 'ar' ? 'قسم الرجال' : 'Men’s Section',
-      image: menMenuImage,
+      image:
+        categories.find((item) => item.slug === 'men' && !item.parentId)?.image?.url ||
+        menMenuImage,
     },
     children: categoryLinks(categories, 'men', language),
   },
@@ -25,7 +27,9 @@ export const navigation = (language, categories = []) => [
     dropdown: true,
     menu: {
       heading: language === 'ar' ? 'قسم النساء' : 'Women’s Section',
-      image: womenMenuImage,
+      image:
+        categories.find((item) => item.slug === 'women' && !item.parentId)?.image?.url ||
+        womenMenuImage,
     },
     children: categoryLinks(categories, 'women', language),
   },
@@ -36,7 +40,9 @@ export const navigation = (language, categories = []) => [
     dropdown: true,
     menu: {
       heading: language === 'ar' ? 'قسم الأطفال' : 'Kids’ Section',
-      image: kidsMenuImage,
+      image:
+        categories.find((item) => item.slug === 'kids' && !item.parentId)?.image?.url ||
+        kidsMenuImage,
     },
     children: categoryLinks(categories, 'kids', language),
   },

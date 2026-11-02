@@ -7,6 +7,7 @@ export function createStaffContentFixture(seedProducts = []) {
     ['hero-right', 'Hero: right image', 'الصورة اليمنى للبنر الرئيسي'],
     ['collection-men', 'Men collection', 'مجموعة الرجال'],
     ['collection-women', 'Women collection', 'مجموعة النساء'],
+    ['collection-kids', 'Kids collection', 'مجموعة الأطفال'],
     ['sale-feature', 'Sale feature', 'صورة قسم التخفيضات'],
     ['factory-story', 'Factory story', 'صورة قصة المصنع'],
   ].map(([key, en, ar]) => ({ key, label: { en, ar }, supportsMobileImage: true }))

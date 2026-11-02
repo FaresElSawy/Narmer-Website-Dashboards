@@ -116,6 +116,7 @@ export function retailHomepage(language, images) {
       'hero-right',
       'collection-men',
       'collection-women',
+      'collection-kids',
       'sale-feature',
       'factory-story',
     ].map((key) => ({ key, desktopImage: null, mobileImage: null, alt: '' })),
